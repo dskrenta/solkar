@@ -1,0 +1,31 @@
+{
+  "name": "solkar",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node --optimize_for_size --max_old_space_size=920 --gc_interval=100 index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dskrenta/solkar.git"
+  },
+  "author": "David Skrenta <dskrenta@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dskrenta/solkar/issues"
+  },
+  "homepage": "https://github.com/dskrenta/solkar#readme",
+  "dependencies": {
+    "koa": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-plugin-syntax-async-functions": "^6.8.0",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-preset-es2015-node5": "^1.2.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.9.0"
+  }
+}
