@@ -7,10 +7,6 @@ import router from './routes/demo';
 const app = new Koa();
 const PORT = 3000;
 
-router.get('/demo', (ctx, next) => {
-  ctx.body = 'demo route';
-});
-
 app
   .use(router.routes())
   .use(serveStatic(`${__dirname}/public`));
