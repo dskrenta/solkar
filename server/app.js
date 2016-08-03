@@ -1,14 +1,19 @@
 'use strict';
 import Koa from 'koa';
 import fs from 'fs';
+import serveStatic from 'koa-serve-static';
+import router from './routes/demo';
 
 const app = new Koa();
 const PORT = 3000;
 
-app.use(async ctx => {
-  ctx.type = 'text/html';
-  ctx.body = fs.createReadStream(`${__dirname}/public/index.html`);
+router.get('/demo', (ctx, next) => {
+  ctx.body = 'demo route';
 });
+
+app
+  .use(router.routes())
+  .use(serveStatic(`${__dirname}/public`));
 
 app.listen(PORT, () => console.log(`Server started on *:${PORT}`));
 
