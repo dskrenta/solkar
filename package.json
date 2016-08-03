@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node --optimize_for_size --max_old_space_size=920 --gc_interval=100 index.js",
+    "clean": "rm -rf build && mkdir build",
+    "build-server": "babel -d ./build ./server -s",
+    "build-riot": "riot ./server/components ./build/components",
+    "copy-public": "cp -r ./server/public ./build",
+    "build": "npm run clean && npm run build-server && npm run build-riot && npm run copy-public",
+    "serve:dev": "NODE_ENV=development node --optimize_for_size --max_old_space_size=920 --gc_interval=100 ./build/app.js",
+    "serve:pro": "NODE_ENV=production node --optimize_for_size --max_old_space_size=920 --gc_interval=100 ./build/app.js",
+    "start": "npm run build && npm run serve:dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,6 +37,7 @@
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-preset-es2015-node5": "^1.2.0",
     "babel-preset-stage-0": "^6.5.0",
-    "babel-register": "^6.9.0"
+    "babel-register": "^6.9.0",
+    "riot-cli": "^2.6.1"
   }
 }
