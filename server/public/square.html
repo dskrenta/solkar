@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Square</title>
+  </head>
+  <body>
+    <h1>Square function transport demo</h1>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script>
+      var socket = io();
+
+      (function () {
+        socket.emit('api.square', 2);
+        console.log('Sent data for square');
+      })();
+
+      socket.on('api.square:done', (result) => {
+        console.log(result);
+        console.log('Got response for square');
+      });
+    </script>
+  </body>
+</html>
