@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-server": "babel -d ./build ./server -s",
-    "build-riot": "riot ./server/components ./build/components",
-    "copy-public": "cp -r ./server/public ./build",
-    "build": "npm run clean && npm run build-server && npm run build-riot && npm run copy-public",
-    "serve:dev": "NODE_ENV=development node --optimize_for_size --max_old_space_size=920 --gc_interval=100 ./build/app.js",
+    "build-server:pro": "babel -d ./build ./server -s",
+    "build-server:dev": "babel -w -d ./build ./server -s",
+    "build-riot:pro": "riot ./server/components ./build/components",
+    "build-riot:dev": "riot -w ./server/components ./build/components",
+    "copy-public:pro": "cp -r ./server/public ./build",
+    "copy-public:dev": "watch -p \"./server/public/**/*.*\" -c \"cp -r ./server/public ./build\"",
+    "build:pro": "npm run clean && npm run build-server:pro && npm run build-riot:pro && npm run copy-public:pro",
+    "build:dev": "npm-run-all clean copy-public:pro --parallel build-server:dev build-riot:dev copy-public:dev",
     "serve:pro": "NODE_ENV=production node --optimize_for_size --max_old_space_size=920 --gc_interval=100 ./build/app.js",
-    "start": "npm run build && npm run serve:dev",
+    "serve:dev": "NODE_ENV=development nodemon ./build/app.js",
+    "start": "npm run serve:dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -37,7 +41,9 @@
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-preset-es2015-node5": "^1.2.0",
     "babel-preset-stage-0": "^6.5.0",
-    "babel-register": "^6.9.0",
-    "riot-cli": "^2.6.1"
+    "nodemon": "^1.10.0",
+    "npm-run-all": "^2.3.0",
+    "riot-cli": "^2.6.1",
+    "watch-cli": "^0.2.1"
   }
 }
