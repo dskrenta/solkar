@@ -41,3 +41,4 @@ jspm_packages
 
 # Build
 build
+public/dist
