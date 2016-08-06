@@ -4,15 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf build && mkdir build",
-    "build-server:pro": "babel -d ./build ./server -s",
-    "build-server:dev": "babel -w -d ./build ./server -s",
-    "build-riot:pro": "riot ./server/components ./build/components",
-    "build-riot:dev": "riot -w ./server/components ./build/components",
-    "copy-public:pro": "cp -r ./server/public ./build",
-    "copy-public:dev": "watch -p \"./server/public/**/*.*\" -c \"cp -r ./server/public ./build\"",
-    "build:pro": "npm run clean && npm run build-server:pro && npm run build-riot:pro && npm run copy-public:pro",
-    "build:dev": "npm-run-all clean copy-public:pro --parallel build-server:dev build-riot:dev copy-public:dev",
+    "clean": "rm -rf build && mkdir build && rm -rf dist",
+    "build-server:pro": "BABEL_ENV=server babel -d ./build ./server -s",
+    "build-server:dev": "BABEL_ENV=server babel -w -d ./build ./server -s",
+    "build-rollup:pro": "rollup -c",
+    "build-rollup:dev": "rollup -c -w",
+    "build:dev": "run-s clean && run-p build-server:dev build-rollup:dev",
     "serve:pro": "NODE_ENV=production node --optimize_for_size --max_old_space_size=920 --gc_interval=100 ./build/app.js",
     "serve:dev": "NODE_ENV=development nodemon ./build/app.js",
     "start": "npm run serve:dev",
@@ -33,17 +30,25 @@
     "koa-router": "^7.0.1",
     "koa-serve-static": "^1.0.0",
     "koa-socket": "^4.4.0",
-    "riot-observable": "^3.0.0-alpha.1"
+    "riot-observable": "^3.0.0-alpha.1",
+    "riot": "^2.5.0"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-plugin-syntax-async-functions": "^6.8.0",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-preset-es2015-node5": "^1.2.0",
+    "babel-preset-es2015-rollup": "rollup/babel-preset-es2015-rollup#29b4cc3",
     "babel-preset-stage-0": "^6.5.0",
     "nodemon": "^1.10.0",
     "npm-run-all": "^2.3.0",
     "riot-cli": "^2.6.1",
+    "rollup": "^0.34.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-commonjs": "^3.3.1",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-riot": "^0.4.0",
+    "rollup-watch": "^2.5.0",
     "watch-cli": "^0.2.1"
   }
 }

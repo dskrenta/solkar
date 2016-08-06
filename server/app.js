@@ -10,7 +10,7 @@ const PORT = 3000;
 
 app
   .use(router.routes())
-  .use(serveStatic(`${__dirname}/public`));
+  .use(serveStatic(`${__dirname}/../public`));
 
 const socket = Socket(app);
 app.listen(PORT, () => console.log(`Server started on *:${PORT}`));

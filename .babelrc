@@ -1,7 +1,18 @@
 {
-  "presets": ["es2015-node5"],
-  "plugins": [
-    "transform-async-to-generator",
-    "syntax-async-functions"
-  ]
+  "env": {
+    "frontend": {
+      "presets": ["es2015-rollup"],
+      "plugins": [
+        "transform-async-to-generator",
+        "syntax-async-functions"
+      ]
+    },
+    "server": {
+      "presets": ["es2015-node5"],
+      "plugins": [
+        "transform-async-to-generator",
+        "syntax-async-functions"
+      ]
+    }
+  }
 }
