@@ -20,5 +20,11 @@ let stuff = david.toString();
 console.log(stuff);
 point.toString();
 
+;(() => {
+  setTimeout(() => {
+    sweetAlert("Oops...", "Something went wrong!", "error");
+  }, 2000);
+})();
+
 demo()
   .then((data) => console.log(data));
