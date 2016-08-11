@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build && rm -rf dist",
-    "build-server:pro": "BABEL_ENV=server babel -d ./build ./server -s",
+    "build-server:prod": "BABEL_ENV=server babel -d ./build ./server -s",
     "build-server:dev": "BABEL_ENV=server babel -w -d ./build ./server -s",
-    "build-rollup:pro": "rollup -c",
+    "build-rollup:prod": "rollup -c",
     "build-rollup:dev": "rollup -c -w",
     "build:dev": "run-s clean && run-p build-server:dev build-rollup:dev",
-    "serve:pro": "NODE_ENV=production node --optimize_for_size --max_old_space_size=920 --gc_interval=100 ./build/app.js",
+    "build:prod": "run-s clean build-server:prod build-rollup:prod",
+    "serve:prod": "NODE_ENV=production node --optimize_for_size --max_old_space_size=920 --gc_interval=100 ./build/app.js",
     "serve:dev": "NODE_ENV=development nodemon ./build/app.js",
     "start": "npm run serve:dev",
     "test": "echo \"Error: no test specified\" && exit 1"
