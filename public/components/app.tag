@@ -1,7 +1,16 @@
 <app>
-  <h1>Base app tag</h1>
-  <p>Add links to riot routes</p>
+  <a href="#/login">login</a>
+  <a href="#/mapview">mapview</a>
+
+  <div id="view"></div>
 
   <script>
+    riot.route((page) => {
+      if (!page) {
+        riot.mount('#view', 'login');
+      } else {
+        riot.mount('#view', page);
+      }
+    });
   </script>
 </app>
