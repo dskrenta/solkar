@@ -2,7 +2,7 @@
   "name": "solkar",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./build/app.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build && rm -rf dist",
     "build-server:prod": "BABEL_ENV=server babel -d ./build ./server -s",
@@ -14,7 +14,7 @@
     "serve:prod": "NODE_ENV=production node --optimize_for_size --max_old_space_size=920 --gc_interval=100 ./build/app.js",
     "serve:dev": "NODE_ENV=development nodemon ./build/app.js",
     "start": "npm run serve:dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",

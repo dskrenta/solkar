@@ -1,14 +1,10 @@
-sudo: required
+language: node_js
+
+node_js:
+  - "6"
 
 notifications:
   slack: octograde:rmun1necIqoZSQMQh5QIyWpS
-
-services:
-  - docker
-
-before_install:
-  - docker build -t dskrenta/solkar .
-  - docker run -p 3000:3000 -d dskrenta/solkar
 
 script:
   - exit 0
