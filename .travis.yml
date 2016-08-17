@@ -12,6 +12,7 @@ services:
   - docker
 
 before_install:
+  - npm install
   - npm run build:prod
   - docker build -t dskrenta/solkar .
   - docker run -p 3000:3000 -d dskrenta/solkar
