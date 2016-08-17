@@ -31,5 +31,5 @@ Server should start up on `localhost:3000`.
 Build for production:
 
 ```
-$ npm run build:pro
+$ npm run build:prod
 ```
