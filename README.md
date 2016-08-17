@@ -1,7 +1,6 @@
 # Solkar
 
 ![](https://travis-ci.com/dskrenta/solkar.svg?token=oGTtYcN7HQigUsGJCspe&branch=master)
-![](https://david-dm.org/dskrenta/solkar.svg)
 
 ## Install
 
