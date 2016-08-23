@@ -42,3 +42,6 @@ jspm_packages
 # Build
 build
 public/dist
+
+# Python pyc files
+*.pyc
