@@ -5,14 +5,15 @@ from threading import Thread
 from urlparse import urlparse
 
 class WebCrawler:
-    def __init__(self, rootURL):
+    def __init__(self, root_urls):
         self.q = Queue()
         self.visited = set()
         self.threads = []
         self.num_worker_threads = 2
         self.host_whitelist = []
         self.load_host_whitelist()
-        self.q.put(rootURL)
+        for url in root_urls:
+            self.q.put(url)
         self.start_crawl()
 
     def load_host_whitelist(self):
