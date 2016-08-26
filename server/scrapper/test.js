@@ -1,6 +1,6 @@
 import { parse, loadDOM } from './scrapper';
 
-async function getEarnings (url) {
+async function getData (url) {
   try {
     const $ = await loadDOM(url);
     let logo = await parse($);
@@ -10,4 +10,4 @@ async function getEarnings (url) {
   }
 }
 
-getEarnings('http://harvix.com/about');
+getData('http://harvix.com/about');
