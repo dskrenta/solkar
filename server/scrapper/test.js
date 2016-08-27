@@ -1,13 +1,9 @@
-import { parse, loadDOM } from './scrapper';
+import { getEarnings } from './scrapper';
 
-async function getData (url) {
-  try {
-    const $ = await loadDOM(url);
-    let logo = await parse($);
-    console.log(logo);
-  } catch (error) {
+getEarnings('https://biz.yahoo.com/research/earncal/today.html')
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
     console.log(error);
-  }
-}
-
-getData('http://harvix.com/about');
+  });

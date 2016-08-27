@@ -2,7 +2,7 @@
 import request from 'request';
 import cheerio from 'cheerio';
 
-export function loadDOM (url) {
+function loadDOM (url) {
   return new Promise((resolve, reject) => {
     request(url, (error, response, body) => {
       if (!error && response.statusCode === 200) {
@@ -14,12 +14,20 @@ export function loadDOM (url) {
   });
 }
 
-export function parse ($) {
+export async function getEarnings (url) {
+  try {
+    const $ = await loadDOM(url);
+    return await parseEarnings($);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function parseEarnings ($) {
   return new Promise((resolve, reject) => {
-    let logo = $('h4')
-      .map((i, el) => `${$(el).text()} \n`)
+    let data = $('tr')
+      .map((i, el) => `${$(el).html()} \n`)
       .get()
-      .join('');
-    resolve(logo);
+    resolve(data);
   });
 }
