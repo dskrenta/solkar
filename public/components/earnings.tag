@@ -20,6 +20,7 @@
 
   <script>
     const socket = io();
+    const localStorageKey = 'earningsData';
     this.items = [];
 
     function getEarningsData () {
@@ -29,12 +30,29 @@
       });
     }
 
+    function getDate () {
+      const date = new Date();
+      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}}`;
+    }
+
     this.on('mount', () => {
-      getEarningsData().then(result => {
-        this.items = result;
+      const jsonData = localStorage.getItem(localStorageKey);
+      const data = JSON.parse(jsonData);
+      if (jsonData === null || data.timestamp !== getDate()) {
+        getEarningsData().then(result => {
+          this.items = result;
+          this.update();
+          const storeObject = {
+            data: result,
+            timestamp: getDate()
+          };
+          localStorage.setItem(localStorageKey, JSON.stringify(storeObject));
+        });
+      } else {
+        this.items = data.data;
         this.update();
-      });
-    })
+      }
+    });
 
   </script>
 </earnings>
