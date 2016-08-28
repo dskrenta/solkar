@@ -14,12 +14,12 @@ function loadDOM (url) {
   });
 }
 
-export async function getEarnings (url) {
+export default async function getEarnings (url) {
   try {
-    const $ = await loadDOM(url);
+    const $ = await loadDOM('https://biz.yahoo.com/research/earncal/today.html');
     return await parseEarnings($);
   } catch (error) {
-    console.log(error);
+    console.log(`ERROR: ${error}`);
   }
 }
 
