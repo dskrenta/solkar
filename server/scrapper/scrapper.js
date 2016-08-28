@@ -25,8 +25,19 @@ export async function getEarnings (url) {
 
 function parseEarnings ($) {
   return new Promise((resolve, reject) => {
-    let data = $('tr')
-      .map((i, el) => `${$(el).html()} \n`)
+    const backLength = $('tr').get().length - 2;
+    const data = $('tr')
+      .map((i, el) => {
+        if (i > 8 && i < backLength) {
+          let children = $(el).children()
+          return {
+            company: $(children[0]).text(),
+            symbol: $(children[1]).text(),
+            eps: $(children[2]).text(),
+            time: $(children[3]).text()
+          };
+        }
+      })
       .get()
     resolve(data);
   });
