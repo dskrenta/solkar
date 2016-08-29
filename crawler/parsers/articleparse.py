@@ -12,7 +12,7 @@ def article_parse(url, page):
 
     return {
         'content': content,
-        'domain': parsed_url.hostname().
+        'domain': parsed_url.hostname(),
         'authors': parse_authors(soup),
         'url': url,
         'title': title,
