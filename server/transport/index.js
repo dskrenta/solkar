@@ -20,4 +20,7 @@ export default (app) => {
 
   pipe(api, 'api.square:done');
   observe('api.square', api.square, api);
+
+  pipe(api, 'api.getEarningsData:done');
+  observe('api.getEarningsData', api.getEarningsData, api);
 }
