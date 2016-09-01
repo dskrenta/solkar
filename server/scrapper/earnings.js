@@ -13,8 +13,7 @@ export default async function earnings (url) {
     for (let i = 0; i < data.length; i++) {
       data[i]['quoteData'] = quoteData[i];
     }
-    const volumeSortedData = volumeSort(data);
-    return volumeSortedData.reverse();
+    return data;
   } catch (err) {
     console.log(err);
   }
