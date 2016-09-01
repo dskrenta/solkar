@@ -1,6 +1,6 @@
-import { getEarnings } from './scrapper';
+import earnings from './earnings';
 
-getEarnings('https://biz.yahoo.com/research/earncal/today.html')
+earnings()
   .then((result) => {
     console.log(result);
   })

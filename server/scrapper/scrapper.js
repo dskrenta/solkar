@@ -17,9 +17,10 @@ function loadDOM (url) {
 export default async function getEarnings (url) {
   try {
     const $ = await loadDOM('https://biz.yahoo.com/research/earncal/today.html');
-    return await parseEarnings($);
+    const earnings = await parseEarnings($);
+    return earnings;
   } catch (error) {
-    console.log(`ERROR: ${error}`);
+    console.log(error);
   }
 }
 
@@ -29,13 +30,17 @@ function parseEarnings ($) {
     const data = $('tr')
       .map((i, el) => {
         if (i > 8 && i < backLength) {
-          let children = $(el).children()
-          return {
-            company: $(children[0]).text(),
-            symbol: $(children[1]).text(),
-            eps: $(children[2]).text(),
-            time: $(children[3]).text()
-          };
+          const children = $(el).children()
+          const time = $(children[3]).text();
+          const symbol = $(children[1]).text();
+          if (time === 'Before Market Open' || time === 'After Market Close') {
+            return {
+              company: $(children[0]).text(),
+              symbol: symbol,
+              eps: $(children[2]).text(),
+              time: time
+            };
+          }
         }
       })
       .get()
