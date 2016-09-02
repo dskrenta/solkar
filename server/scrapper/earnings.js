@@ -4,15 +4,28 @@ import cheerio from 'cheerio';
 import yahooFinance from 'yahoo-finance';
 import loadDOM from './scrape';
 
-export default async function earnings (url) {
+export async function earnings (url) {
   try {
     const $ = await loadDOM('https://biz.yahoo.com/research/earncal/today.html');
     const data = await parseEarnings($);
-    const modData = data.map(elem => getQuoteInfo(elem.symbol));
-    const quoteData = await Promise.all(modData);
+    const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
+    const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
+    const quoteData = await Promise.all(quoteDataSymbols);
+    const supriseData = await Promise.all(earningsSupriseSymbols);
     for (let i = 0; i < data.length; i++) {
       data[i]['quoteData'] = quoteData[i];
+      data[i]['earningsSuprise'] = supriseData[i];
     }
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getEarningsHistory (symbol) {
+  try {
+    const $ = await loadDOM(`http://www.nasdaq.com/symbol/${symbol}/earnings-surprise`);
+    const data = await parseEarningsHistory($);
     return data;
   } catch (err) {
     console.log(err);
@@ -32,7 +45,7 @@ function parseEarnings ($) {
     const data = $('tr')
       .map((i, el) => {
         if (i > 8 && i < backLength) {
-          const children = $(el).children()
+          const children = $(el).children();
           const time = $(children[3]).text();
           const symbol = $(children[1]).text();
           if (time === 'Before Market Open' || time === 'After Market Close') {
@@ -45,7 +58,29 @@ function parseEarnings ($) {
           }
         }
       })
-      .get()
+      .get();
+    resolve(data);
+  });
+}
+
+function parseEarningsHistory ($) {
+  return new Promise((resolve, reject) => {
+    const data = $('.genTable')
+      .find('table')
+      .find('tr')
+      .map((i, el) => {
+        if (i > 0) {
+          const children = $(el).children();
+          return {
+            fiscalQuarterEnd: $(children[0]).text(),
+            dateReported: $(children[1]).text(),
+            eps: $(children[2]).text(),
+            consensusEpsForcast: $(children[3]).text(),
+            suprise: $(children[4]).text()
+          };
+        }
+      })
+      .get();
     resolve(data);
   });
 }
