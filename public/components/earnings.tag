@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr each={ items }>
-        <td>{ company }</td>
+        <td><a href={ yahooFinanceURL(symbol) } target="_blank">{ company }</a></td>
         <td>{ symbol }</td>
         <td>{ eps }</td>
         <td>{ time }</td>
@@ -27,6 +27,10 @@
     const socket = io();
     const localStorageKey = 'earningsData';
     this.items = [];
+
+    yahooFinanceURL (symbol) {
+      return `http:\/\/finance.yahoo.com/quote/${symbol}?p=${symbol}`;
+    }
 
     function getEarningsData () {
       return new Promise((resolve, reject) => {
