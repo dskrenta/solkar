@@ -28,6 +28,20 @@
     const localStorageKey = 'earningsData';
     this.items = [];
 
+    function volumeSort () {
+      self.items = self.items
+        .sort(sortByAverageDailyVolume)
+        .reverse();
+    }
+
+    function sortByAverageDailyVolume (a, b) {
+      let keyA = a.quoteData.averageDailyVolume;
+      let keyB = b.quoteData.verageDailyVolume;
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
+    }
+
     yahooFinanceURL (symbol) {
       return `http:\/\/finance.yahoo.com/quote/${symbol}?p=${symbol}`;
     }
@@ -68,8 +82,9 @@
     this.on('mount', () => {
       getEarningsData().then(result => {
         console.log(JSON.stringify(result, null, '\t'));
-        this.items = result;
-        this.update();
+        self.items = result;
+        volumeSort();
+        self.update();
       });
     });
 
