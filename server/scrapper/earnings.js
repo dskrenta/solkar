@@ -14,8 +14,9 @@ export async function earnings (url) {
     const supriseData = await Promise.all(earningsSupriseSymbols);
     for (let i = 0; i < data.length; i++) {
       data[i]['quoteData'] = quoteData[i];
-      data[i]['earningsSuprise'] = supriseData[i];
+      data[i]['earningsHistory'] = supriseData[i];
     }
+    getAverageSuprise(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -29,6 +30,22 @@ export async function getEarningsHistory (symbol) {
     return data;
   } catch (err) {
     console.log(err);
+  }
+}
+
+function getAverageSuprise (arr) {
+  for (let i = 0; i < arr.length; i++) {
+    let times = 0;
+    let sum = 0;
+    const earningsHistory = arr[i].earningsHistory;
+    for (let j = 0; j < earningsHistory.length; j++) {
+      if (earningsHistory[j] && earningsHistory[j].suprise) {
+        const suprise = Number(earningsHistory[j].suprise);
+        sum += Math.abs(suprise);
+        times++;
+      }
+    }
+    if (times !== 0) arr[i].averageEarningsSuprise = sum / times;
   }
 }
 
