@@ -1,7 +1,7 @@
 <article-table>
 
   <div class="article">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-bordered table-hover">
       <thead>
         <tr>
           <th>id</th>
@@ -39,7 +39,7 @@
       sentiment: '0.82',
       keywords: [ 'Stock', 'Money', 'Winning' ],
       symbols: [ 'AAPL', 'TWLO', 'LN']
-    },{
+    }, {
       id: '2',
       title: 'more stuff',
       url: 'facebook.com',
@@ -48,7 +48,7 @@
       sentiment: '0.82',
       keywords: [ 'Stock', 'Money', 'Winning' ],
       symbols: [ 'AAPL', 'TWLO', 'LN']
-    },{
+    }, {
       id: '3',
       title: 'even more stuff',
       url: 'twitter.com',
