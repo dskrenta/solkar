@@ -16,8 +16,6 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="#/login">login</a></li>
-          <li><a href="#/mapview">mapview</a></li>
           <li><a href="#/earnings">Earnings</a></li>
           <li><a href="#/article-table">article</a></li>
         </ul>
@@ -33,7 +31,7 @@
           </dropdown>
         </ul>-->
         <ul class="nav navbar-nav navbar-right">
-          <dropdown class="dropdown">
+          <dropdown tag="li" class="dropdown">
               <li><a href="#">Action</a></li>
               <li><a href="#">Another action</a></li>
               <li><a href="#">Something else here</a></li>
