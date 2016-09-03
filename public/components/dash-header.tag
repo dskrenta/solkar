@@ -31,7 +31,7 @@
           </dropdown>
         </ul>-->
         <ul class="nav navbar-nav navbar-right">
-          <dropdown tag="li" class="dropdown">
+          <dropdown class="dropdown">
               <li><a href="#">Action</a></li>
               <li><a href="#">Another action</a></li>
               <li><a href="#">Something else here</a></li>
