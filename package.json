@@ -34,7 +34,8 @@
     "koa-socket": "^4.4.0",
     "request": "^2.74.0",
     "riot": "^2.5.0",
-    "riot-observable": "^3.0.0-alpha.1"
+    "riot-observable": "^3.0.0-alpha.1",
+    "yahoo-finance": "^0.2.14"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
