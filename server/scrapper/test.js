@@ -7,13 +7,3 @@ earnings()
   .catch((error) => {
     console.log(error);
   });
-
-/*
-getEarningsHistory('AAPL')
-  .then(result => {
-    console.log(result);
-  })
-  .catch(error => {
-    console.log(error);
-  })
-*/

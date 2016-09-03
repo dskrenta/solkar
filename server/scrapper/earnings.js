@@ -53,7 +53,7 @@ function getQuoteInfo (symbol, fields) {
   return yahooFinance.snapshot({
     symbol: symbol,
     fields: fields
-  })
+  });
 }
 
 function parseEarnings ($) {
