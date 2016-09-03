@@ -5,7 +5,7 @@
   </div>
 
   <script>
-    const defaultTag = 'login';
+    const defaultTag = 'earnings';
     riot.mount('dash-header');
     riot.route((page) => {
       if (!page) {

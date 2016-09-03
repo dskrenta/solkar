@@ -19,7 +19,8 @@
           <li><a href="#/earnings">Earnings</a></li>
           <li><a href="#/article-table">article</a></li>
         </ul>
-        <!--<ul class="nav navbar-nav navbar-right">
+        <!--
+        <ul class="nav navbar-nav navbar-right">
           <dropdown>
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -29,7 +30,9 @@
             <li role="separator" class="divider"></li>
             <li><a href="#">One more separated link</a></li>
           </dropdown>
-        </ul>-->
+        </ul>
+        -->
+        <!--
         <ul class="nav navbar-nav navbar-right">
           <dropdown class="dropdown">
               <li><a href="#">Action</a></li>
@@ -41,6 +44,7 @@
               <li><a href="#">One more separated link</a></li>
           </dropdown>
         </ul>
+        -->
         <form class="navbar-form navbar-right">
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Search">
