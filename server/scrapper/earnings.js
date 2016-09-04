@@ -4,8 +4,9 @@ import cheerio from 'cheerio';
 import yahooFinance from 'yahoo-finance';
 import loadDOM from './scrape';
 
-export async function earnings (date) {
+export async function earnings (dateString) {
   try {
+    const date = new Date(dateString);
     const url = URLFromDate(date);
     const $ = await loadDOM(url);
     const data = await parseEarnings($);
@@ -35,7 +36,7 @@ export async function getEarningsHistory (symbol) {
 }
 
 function URLFromDate (date) {
-  if (date instanceof Date && date) {
+  if (date instanceof Date) {
     const dateString = formatDate(date);
     const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
     return url;
