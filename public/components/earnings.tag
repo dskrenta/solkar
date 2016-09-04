@@ -8,6 +8,7 @@
         <th>Time</th>
         <th>Average Daily Volume</th>
         <th>Average Historical Earnings Suprise</th>
+        <th>Last Trade</td>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +18,8 @@
         <td>{ eps }</td>
         <td>{ time }</td>
         <td>{ quoteData.averageDailyVolume ? quoteData.averageDailyVolume : 'N/A' }</td>
-        <td>{ averageEarningsSuprise ? averageEarningsSuprise : 'N/A' }</td>
+        <td>{ averageEarningsSuprise ? averageEarningsSuprise.toPrecision(4) : 'N/A' }</td>
+        <td>{ quoteData.lastTradePriceOnly }</td>
       </tr>
     </tbody>
   </table>
@@ -25,8 +27,21 @@
   <script>
     const self = this;
     const socket = io();
-    const localStorageKey = 'earningsData';
     this.items = [];
+
+    function volumeSort () {
+      self.items = self.items
+        .sort(sortByAverageDailyVolume)
+        .reverse();
+    }
+
+    function sortByAverageDailyVolume (a, b) {
+      let keyA = a.quoteData.averageDailyVolume;
+      let keyB = b.quoteData.averageDailyVolume;
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
+    }
 
     yahooFinanceURL (symbol) {
       return `http:\/\/finance.yahoo.com/quote/${symbol}?p=${symbol}`;
@@ -35,7 +50,7 @@
     function getEarningsData () {
       return new Promise((resolve, reject) => {
         socket.on('api.getEarningsData:done', resolve);
-        socket.emit('api.getEarningsData');
+        socket.emit('api.getEarningsData', new Date('September 6, 2016').toString());
       });
     }
 
@@ -44,32 +59,12 @@
       return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}}`;
     }
 
-    /*
-    this.on('mount', () => {
-      const jsonData = localStorage.getItem(localStorageKey);
-      const data = JSON.parse(jsonData);
-      if (jsonData === null || data.timestamp !== getDate()) {
-        getEarningsData().then(result => {
-          this.items = result;
-          this.update();
-          const storeObject = {
-            data: result,
-            timestamp: getDate()
-          };
-          localStorage.setItem(localStorageKey, JSON.stringify(storeObject));
-        });
-      } else {
-        this.items = data.data;
-        this.update();
-      }
-    });
-    */
-
     this.on('mount', () => {
       getEarningsData().then(result => {
         console.log(JSON.stringify(result, null, '\t'));
-        this.items = result;
-        this.update();
+        self.items = result;
+        volumeSort();
+        self.update();
       });
     });
 
