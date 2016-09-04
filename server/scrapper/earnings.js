@@ -4,9 +4,10 @@ import cheerio from 'cheerio';
 import yahooFinance from 'yahoo-finance';
 import loadDOM from './scrape';
 
-export async function earnings (url) {
+export async function earnings (date) {
   try {
-    const $ = await loadDOM('https://biz.yahoo.com/research/earncal/today.html');
+    const url = URLFromDate(date);
+    const $ = await loadDOM(url);
     const data = await parseEarnings($);
     const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
     const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
@@ -25,12 +26,31 @@ export async function earnings (url) {
 
 export async function getEarningsHistory (symbol) {
   try {
-    const $ = await loadDOM(`http://www.nasdaq.com/symbol/${symbol}/earnings-surprise`);
+    const $ = await loadDOM(`http:\/\/www.nasdaq.com/symbol/${symbol}/earnings-surprise`);
     const data = await parseEarningsHistory($);
     return data;
   } catch (err) {
     console.log(err);
   }
+}
+
+function URLFromDate (date) {
+  if (date instanceof Date && date) {
+    const dateString = formatDate(date);
+    const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
+    return url;
+  } else {
+    return 'https:\/\/biz.yahoo.com/research/earncal/today.html';
+  }
+}
+
+function formatDate (date) {
+  let year = date.getFullYear().toString();
+  let month = (date.getMonth() + 1).toString();
+  let day = date.getDate().toString();
+  if (day.length === 1) day = '0' + day;
+  if (month.length === 1) month = '0' + month;
+  return year + month + day;
 }
 
 function getAverageSuprise (arr) {

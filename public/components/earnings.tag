@@ -49,7 +49,7 @@
     function getEarningsData () {
       return new Promise((resolve, reject) => {
         socket.on('api.getEarningsData:done', resolve);
-        socket.emit('api.getEarningsData');
+        socket.emit('api.getEarningsData', new Date());
       });
     }
 
