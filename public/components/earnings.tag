@@ -1,4 +1,5 @@
 <earnings>
+
   <table class="table table-bordered table-hover">
     <thead>
       <tr>
