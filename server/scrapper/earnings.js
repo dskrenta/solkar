@@ -6,8 +6,7 @@ import loadDOM from './scrape';
 
 export async function earnings (dateString) {
   try {
-    const date = new Date(dateString);
-    const url = URLFromDate(date);
+    const url = URLFromDate(dateString);
     const $ = await loadDOM(url);
     const data = await parseEarnings($);
     const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
@@ -21,7 +20,7 @@ export async function earnings (dateString) {
     getAverageSuprise(data);
     return data;
   } catch (err) {
-    console.log(err);
+    console.log(`Earnings error: ${err}`);
   }
 }
 
@@ -35,14 +34,9 @@ export async function getEarningsHistory (symbol) {
   }
 }
 
-function URLFromDate (date) {
-  if (date instanceof Date) {
-    const dateString = formatDate(date);
-    const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
-    return url;
-  } else {
-    return 'https:\/\/biz.yahoo.com/research/earncal/today.html';
-  }
+function URLFromDate (dateString) {
+  const date = dateString ? dateString : formatDate(new Date());
+  return `https:\/\/biz.yahoo.com/research/earncal/${date}.html`;
 }
 
 function formatDate (date) {
