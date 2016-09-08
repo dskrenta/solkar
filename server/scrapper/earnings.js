@@ -155,6 +155,43 @@ function parseEarningsResearch ($, symbol) {
     data.PERatio = $('#ContentPlaceHolder1_lblPERatio').text();
     data['52WeekRange'] = $('#ContentPlaceHolder1_lbl52WRange').text();
     data.estimatedEPS = $('#ContentPlaceHolder1_lblEstimatedEPS').text();
+
+    data.historicalPriceChanges = $('.datablurbox')
+      .eq(0)
+      .find('ul')
+      .find('li')
+      .map((i, el) => {
+        const children = $(el).children();
+        return {
+          earningsDate: $(children[0]).text().trim(),
+          closingPriceBeforeEarnings: $(children[1]).text().trim(),
+          nextDayClosingPrice: $(children[2]).text().trim(),
+          nextDayPriceChange: $(children[3]).text().trim(),
+          nextDayVolume: $(children[4]).text().trim(),
+          on7thDayClosingPrice: $(children[5]).text().trim(),
+          on7thDayPriceChange: $(children[6]).text().trim()
+        }
+      })
+      .get();
+
+      data.historicalVolatility = $('.datablurbox')
+        .eq(1)
+        .find('ul')
+        .find('li')
+        .map((i, el) => {
+          const children = $(el).children();
+          return {
+            earningsDate: $(children[0]).text().trim(),
+            openPrice: $(children[1]).text().trim(),
+            lowPrice: $(children[2]).text().trim(),
+            highPrice: $(children[3]).text().trim(),
+            closingPrice: $(children[4]).text().trim(),
+            volatility: $(children[5]).text().trim(),
+            closingPriceChange: $(children[6]).text().trim()
+          }
+        })
+        .get();
+
     resolve(data);
   });
 }
