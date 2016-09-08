@@ -57,8 +57,8 @@
 
   <style scoped>
     :scope {
-      display: inline-block;
-      width: 100%;
+      // display: inline-block;
+      // width: 100%;
     }
   </style>
 

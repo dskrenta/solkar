@@ -1,4 +1,5 @@
 <earnings>
+  <h3>{ date }</h3>
   <table class="table table-bordered table-hover">
     <thead>
       <tr>
@@ -28,6 +29,18 @@
     const self = this;
     const socket = io();
     this.items = [];
+    this.date  = parseDate(opts.date);
+
+    function parseDate (date) {
+      let finalDate;
+      if (date) {
+        let modDate = `${date.substring(0, 4)} ${date.substring(4, 6)} ${date.substring(6, 8)}`;
+        finalDate = new Date(modDate);
+      } else {
+        finalDate = new Date();
+      }
+      return getDate(finalDate);
+    }
 
     function volumeSort () {
       self.items = self.items
@@ -47,25 +60,30 @@
       return `http:\/\/finance.yahoo.com/quote/${symbol}?p=${symbol}`;
     }
 
-    function getEarningsData () {
+    function getEarningsData (date) {
       return new Promise((resolve, reject) => {
         socket.on('api.getEarningsData:done', resolve);
-        socket.emit('api.getEarningsData', new Date('September 6, 2016').toString());
+        // socket.emit('api.getEarningsData', new Date('September 6, 2016').toString());
+        socket.emit('api.getEarningsData', date);
       });
     }
 
-    function getDate () {
-      const date = new Date();
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}}`;
+    function getDate (date) {
+      // const date = new Date();
+      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     }
 
     this.on('mount', () => {
-      getEarningsData().then(result => {
-        console.log(JSON.stringify(result, null, '\t'));
-        self.items = result;
-        volumeSort();
-        self.update();
-      });
+      getEarningsData(opts.date)
+        .then(result => {
+          // console.log(JSON.stringify(result, null, '\t'));
+          self.items = result;
+          volumeSort();
+          self.update();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     });
 
   </script>
