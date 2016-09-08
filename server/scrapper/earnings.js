@@ -1,6 +1,7 @@
 'use strict';
 import request from 'request';
 import cheerio from 'cheerio';
+import crypto from 'crypto';
 import yahooFinance from 'yahoo-finance';
 import loadDOM from './scrape';
 
@@ -11,11 +12,15 @@ export async function earnings (dateString) {
     const data = await parseEarnings($);
     const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
     const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
+    const earningsResearch = data.map(elem => getEarningsResearch(elem.symbol));
     const quoteData = await Promise.all(quoteDataSymbols);
     const supriseData = await Promise.all(earningsSupriseSymbols);
+    const researchData = await Promise.all(earningsResearch);
+    data['id'] = crypto.createHash('md5').update(dateString).digest('hex');
     for (let i = 0; i < data.length; i++) {
       data[i]['quoteData'] = quoteData[i];
       data[i]['earningsHistory'] = supriseData[i];
+      data[i]['earningsResearch'] = researchData[i];
     }
     getAverageSuprise(data);
     return data;
@@ -34,10 +39,26 @@ export async function getEarningsHistory (symbol) {
   }
 }
 
+export async function getEarningsResearch (symbol) {
+  try {
+    const $ = await loadDOM(`http:\/\/stocksearning.com/q.aspx?Sys=${symbol}`);
+    const data = await parseEarningsResearch($, symbol);
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function URLFromDate (dateString) {
+  return `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
+}
+
+/*
 function URLFromDate (dateString) {
   const date = dateString ? dateString : formatDate(new Date());
   return `https:\/\/biz.yahoo.com/research/earncal/${date}.html`;
 }
+*/
 
 function formatDate (date) {
   let year = date.getFullYear().toString();
@@ -113,6 +134,27 @@ function parseEarningsHistory ($) {
         }
       })
       .get();
+    resolve(data);
+  });
+}
+
+function parseEarningsResearch ($, symbol) {
+  return new Promise((resolve, reject) => {
+    const data = {};
+    data.symbol = symbol;
+    data.snippet = $('#ContentPlaceHolder1_lbltotaltime').text();
+    data.predictedMove = $('#ContentPlaceHolder1_lblpredictedmove').text();
+    data.stockExchange = $('#ContentPlaceHolder1_lblStockExchange').text();
+    data.averageVolumes = $('#ContentPlaceHolder1_lblDailyNextvol').text();
+    data.shortRatio = $('#ContentPlaceHolder1_lblShortRation').text();
+    data['7thDayPredictedMove'] = $('#ContentPlaceHolder1_lblPriceChageSevenDays').text();
+    data.sinceLastEarnings = $('#ContentPlaceHolder1_lbllastearning2').text();
+    data.priceAtLastEarnings = $('#ContentPlaceHolder1_lbllastprice2').text();
+    data.previousClosingPrice = $('#ContentPlaceHolder1_lblclosingprice2').text();
+    data.marketCap = $('#ContentPlaceHolder1_lblMarketCap').text();
+    data.PERatio = $('#ContentPlaceHolder1_lblPERatio').text();
+    data['52WeekRange'] = $('#ContentPlaceHolder1_lbl52WRange').text();
+    data.estimatedEPS = $('#ContentPlaceHolder1_lblEstimatedEPS').text();
     resolve(data);
   });
 }
