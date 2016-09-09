@@ -60,7 +60,7 @@
     this.on('mount', () => {
       getEarningsData(opts.date)
         .then(result => {
-          // console.log(JSON.stringify(result, null, '\t'));
+          console.log(JSON.stringify(result, null, '\t'));
           self.items = result;
           volumeSort();
           self.update();
