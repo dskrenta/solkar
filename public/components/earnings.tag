@@ -8,6 +8,7 @@
         <th>EPS Estimate*</th>
         <th>Time</th>
         <th>Average Daily Volume</th>
+        <th>Predicted Move</th>
         <th>Average Historical Earnings Suprise</th>
         <th>Last Trade</td>
       </tr>
@@ -19,6 +20,7 @@
         <td>{ eps }</td>
         <td>{ time }</td>
         <td>{ quoteData.averageDailyVolume ? quoteData.averageDailyVolume : 'N/A' }</td>
+        <td>{ earningsResearch.predictedMove }</td>
         <td>{ averageEarningsSuprise ? averageEarningsSuprise.toPrecision(4) : 'N/A' }</td>
         <td>{ quoteData.lastTradePriceOnly }</td>
       </tr>
