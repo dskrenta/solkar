@@ -8,6 +8,7 @@
         <th>EPS Estimate*</th>
         <th>Time</th>
         <th>Average Daily Volume</th>
+        <th>Predicted Move</th>
         <th>Average Historical Earnings Suprise</th>
         <th>Last Trade</td>
       </tr>
@@ -19,6 +20,7 @@
         <td>{ eps }</td>
         <td>{ time }</td>
         <td>{ quoteData.averageDailyVolume ? quoteData.averageDailyVolume : 'N/A' }</td>
+        <td>{ earningsResearch.predictedMove }</td>
         <td>{ averageEarningsSuprise ? averageEarningsSuprise.toPrecision(4) : 'N/A' }</td>
         <td>{ quoteData.lastTradePriceOnly }</td>
       </tr>
@@ -29,18 +31,6 @@
     const self = this;
     const socket = io();
     this.items = [];
-    this.date  = parseDate(opts.date);
-
-    function parseDate (date) {
-      let finalDate;
-      if (date) {
-        let modDate = `${date.substring(0, 4)} ${date.substring(4, 6)} ${date.substring(6, 8)}`;
-        finalDate = new Date(modDate);
-      } else {
-        finalDate = new Date();
-      }
-      return getDate(finalDate);
-    }
 
     function volumeSort () {
       self.items = self.items
@@ -63,20 +53,14 @@
     function getEarningsData (date) {
       return new Promise((resolve, reject) => {
         socket.on('api.getEarningsData:done', resolve);
-        // socket.emit('api.getEarningsData', new Date('September 6, 2016').toString());
         socket.emit('api.getEarningsData', date);
       });
-    }
-
-    function getDate (date) {
-      // const date = new Date();
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     }
 
     this.on('mount', () => {
       getEarningsData(opts.date)
         .then(result => {
-          // console.log(JSON.stringify(result, null, '\t'));
+          console.log(JSON.stringify(result, null, '\t'));
           self.items = result;
           volumeSort();
           self.update();

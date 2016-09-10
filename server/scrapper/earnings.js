@@ -53,22 +53,6 @@ function URLFromDate (dateString) {
   return `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
 }
 
-/*
-function URLFromDate (dateString) {
-  const date = dateString ? dateString : formatDate(new Date());
-  return `https:\/\/biz.yahoo.com/research/earncal/${date}.html`;
-}
-*/
-
-function formatDate (date) {
-  let year = date.getFullYear().toString();
-  let month = (date.getMonth() + 1).toString();
-  let day = date.getDate().toString();
-  if (day.length === 1) day = '0' + day;
-  if (month.length === 1) month = '0' + month;
-  return year + month + day;
-}
-
 function getAverageSuprise (arr) {
   for (let i = 0; i < arr.length; i++) {
     let times = 0;
