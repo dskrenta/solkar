@@ -1,5 +1,11 @@
 <article-table>
 
+
+  <modal-large>
+    <h1>Heading</h1>
+    <p>This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph.</p>
+  </modal-large>
+
   <div class="article">
     <table class="table table-bordered table-hover">
       <thead>
@@ -30,6 +36,7 @@
   </div>
 
   <script>
+    riot.mount('modal-large');
     this.articles = [{
       id: '1',
       title: 'stuff',
