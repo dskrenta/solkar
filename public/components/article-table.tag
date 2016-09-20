@@ -4,6 +4,10 @@
   <modal-large>
     <h1>Heading</h1>
     <p>This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph.</p>
+    <style>
+    .modal-trigger { height: 40px; width: 100px; background: none; font-size: 18px; color: #333; border: none; border-radius: 5px; }
+    .modal-trigger:hover { background: #d9d9d9; }
+    </style>
   </modal-large>
 
   <div class="article">
