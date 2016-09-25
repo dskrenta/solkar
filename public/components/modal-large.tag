@@ -1,6 +1,6 @@
 <modal-large>
 
-  <button onclick="{open}" class="modal-trigger">Modal</button>
+  <button onclick={open} class="modal-trigger">Modal</button>
 
   <div if={show} class="overlay">
     <div class="inner">
@@ -8,7 +8,7 @@
         <yield/>
       </div>
       <div class="menu">
-        <button onclick="{close}" class="close-button">Close</button>
+        <button onclick={close} class="close-button">Close</button>
       </div>
     </div>
   </div>
@@ -28,6 +28,9 @@
     this.show = false;
     open() { this.show = true; };
     close() { this.show = false; };
+    this.on('mount', () => {
+      console.log(opts.hello);
+    });
   </script>
 
 </modal-large>

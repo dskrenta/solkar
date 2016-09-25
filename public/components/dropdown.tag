@@ -1,20 +1,25 @@
 <dropdown>
 
-  <a href="#" class="dropdown-toggle" role="button" onclick={ toggle }>Dropdown <span class="caret"></span></a>
-  <ul class="dropdown-menu" show={ dropdown }>
-    <yield />
-  </ul>
+  <a onclick={ toggle }>Dropdown</a>
+  <div if={show} class="dropdown-menur">
+    <ul>
+      <yield />
+    </ul>
+  </div>
 
   <style scoped>
-    .dropdown-menu { display: inline; }
+    .dropdown-menur { padding: 20px;  }
+    .dropdown-menur li { text-decoration: none; height: 25px; line-height: 25px; font-size: 14px; border-top: 1px solid grey; }
+    .dropdown-menur li:first-child { border: none; }
   </style>
 
   <script>
-    this.dropdown = false;
+    const self = this;
+    this.show = false;
 
     toggle () {
-      this.dropdown ? this.dropdown = false : this.dropdown = true;
-      this.update();
+      self.update({show: !self.show});
+      console.log(self.show);
     }
   </script>
 </dropdown>
