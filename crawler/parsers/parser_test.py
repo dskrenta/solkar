@@ -1,15 +1,15 @@
-import articles
+import articleparse
 import requests
-from bs4 import BeautifulSoup as bs
-from urlparse import urlparse
+import json
+# from bs4 import BeautifulSoup as bs
+# from urlparse import urlparse
 
 url = 'http://www.bloomberg.com/news/articles/2016-08-27/icahn-mocks-ackman-s-obsession-after-raising-herbalife-stake'
 result = requests.get(url)
-o = urlparse(url)
-# soup = bs(result, 'html.parser')
+# o = urlparse(url)
 
-# print(o.hostname)
-# print(result)
+# print result
 
-data = articles.parser_switcher(o.hostname, result.text)
-print(data)
+print json.dumps(articleparse.article_parse(url, result.text), sort_keys=True, indent=4, separators=(',', ': '))
+
+# print articleparse.article_parse(url, result.text)
