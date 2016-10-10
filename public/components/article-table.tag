@@ -3,20 +3,6 @@
   <modal-large hello="hello bryce">
     <h1>Heading</h1>
     <p>This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph. This is a paragraph.</p>
-    <style scoped>
-      .modal-trigger {
-        height: 40px;
-        width: 100px;
-        background: none;
-        font-size: 18px;
-        color: #333;
-        border: none;
-        border-radius: 5px;
-      }
-      .modal-trigger:hover {
-        background: #f2f2f2;
-      }
-    </style>
   </modal-large>
 
   <modal-large>
@@ -54,8 +40,9 @@
     </table>
   </div>
 
+  <editor></editor>
+
   <script>
-    riot.mount('modal-large');
     this.articles = [
       {
         id: '1',
@@ -64,9 +51,7 @@
         snippet: 'news article content one',
         time: '12:00',
         sentiment: '0.82',
-        keywords: [
-          'Stock', 'Money', 'Winning'
-        ],
+        keywords: ['Stock', 'Money', 'Winning'],
         symbols: ['AAPL', 'TWLO', 'LN']
       }, {
         id: '2',
@@ -75,9 +60,7 @@
         snippet: 'news article content two',
         time: '13:00',
         sentiment: '0.82',
-        keywords: [
-          'Stock', 'Money', 'Winning'
-        ],
+        keywords: ['Stock', 'Money', 'Winning'],
         symbols: ['AAPL', 'TWLO', 'LN']
       }, {
         id: '3',
@@ -86,9 +69,7 @@
         snippet: 'news article content three',
         time: '16:00',
         sentiment: '0.82',
-        keywords: [
-          'Stock', 'Money', 'Winning'
-        ],
+        keywords: ['Stock', 'Money', 'Winning'],
         symbols: ['AAPL', 'TWLO', 'LN']
       }
     ];
