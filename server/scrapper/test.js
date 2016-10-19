@@ -1,6 +1,6 @@
 import { earnings, getEarningsHistory, getEarningsResearch } from './earnings';
 
-earnings('20160912')
+earnings('20161014')
   .then((result) => {
     console.log(JSON.stringify(result, null, '\t'));
   })
