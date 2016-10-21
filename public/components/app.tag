@@ -7,11 +7,19 @@
   <script>
     const defaultTag = 'earnings';
     riot.mount('dash-header');
-    riot.route((page) => {
+    riot.route((page, option) => {
       if (!page) {
         riot.mount('#view', defaultTag);
       } else {
-        riot.mount('#view', page);
+        switch (page) {
+          case 'earnings':
+            // get date from url
+            riot.mount('#view', page, {date: option});
+            break;
+          default:
+            riot.mount('#view', page);
+            break;
+        }
       }
     });
   </script>

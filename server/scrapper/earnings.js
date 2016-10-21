@@ -1,29 +1,32 @@
 'use strict';
 import request from 'request';
 import cheerio from 'cheerio';
+import crypto from 'crypto';
 import yahooFinance from 'yahoo-finance';
 import loadDOM from './scrape';
 
 export async function earnings (dateString) {
   if (dateString) {
     try {
-      // const date = new Date(dateString);
-      // const url = URLFromDate(date);
       const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
       const $ = await loadDOM(url);
       const data = await parseEarnings($);
       const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
       const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
+      const earningsResearch = data.map(elem => getEarningsResearch(elem.symbol));
       const quoteData = await Promise.all(quoteDataSymbols);
       const supriseData = await Promise.all(earningsSupriseSymbols);
+      const researchData = await Promise.all(earningsResearch);
+      data['id'] = crypto.createHash('md5').update(dateString).digest('hex');
       for (let i = 0; i < data.length; i++) {
         data[i]['quoteData'] = quoteData[i];
         data[i]['earningsHistory'] = supriseData[i];
+        data[i]['earningsResearch'] = researchData[i];
       }
       getAverageSuprise(data);
       return data;
     } catch (err) {
-      console.log(err);
+      console.log(`Earnings error: ${err}`);
     }
   }
 }
@@ -38,23 +41,18 @@ export async function getEarningsHistory (symbol) {
   }
 }
 
-function URLFromDate (date) {
-  if (date instanceof Date) {
-    const dateString = formatDate(date);
-    const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
-    return url;
-  } else {
-    return 'https:\/\/biz.yahoo.com/research/earncal/today.html';
+export async function getEarningsResearch (symbol) {
+  try {
+    const $ = await loadDOM(`http:\/\/stocksearning.com/q.aspx?Sys=${symbol}`);
+    const data = await parseEarningsResearch($, symbol);
+    return data;
+  } catch (err) {
+    console.log(err);
   }
 }
 
-function formatDate (date) {
-  let year = date.getFullYear().toString();
-  let month = (date.getMonth() + 1).toString();
-  let day = date.getDate().toString();
-  if (day.length === 1) day = '0' + day;
-  if (month.length === 1) month = '0' + month;
-  return year + month + day;
+function URLFromDate (dateString) {
+  return `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
 }
 
 function getAverageSuprise (arr) {
@@ -122,6 +120,64 @@ function parseEarningsHistory ($) {
         }
       })
       .get();
+    resolve(data);
+  });
+}
+
+function parseEarningsResearch ($, symbol) {
+  return new Promise((resolve, reject) => {
+    const data = {};
+    data.symbol = symbol;
+    data.snippet = $('#ContentPlaceHolder1_lbltotaltime').text();
+    data.predictedMove = $('#ContentPlaceHolder1_lblpredictedmove').text();
+    data.stockExchange = $('#ContentPlaceHolder1_lblStockExchange').text();
+    data.averageVolumes = $('#ContentPlaceHolder1_lblDailyNextvol').text();
+    data.shortRatio = $('#ContentPlaceHolder1_lblShortRation').text();
+    data['7thDayPredictedMove'] = $('#ContentPlaceHolder1_lblPriceChageSevenDays').text();
+    data.sinceLastEarnings = $('#ContentPlaceHolder1_lbllastearning2').text();
+    data.priceAtLastEarnings = $('#ContentPlaceHolder1_lbllastprice2').text();
+    data.previousClosingPrice = $('#ContentPlaceHolder1_lblclosingprice2').text();
+    data.marketCap = $('#ContentPlaceHolder1_lblMarketCap').text();
+    data.PERatio = $('#ContentPlaceHolder1_lblPERatio').text();
+    data['52WeekRange'] = $('#ContentPlaceHolder1_lbl52WRange').text();
+    data.estimatedEPS = $('#ContentPlaceHolder1_lblEstimatedEPS').text();
+
+    data.historicalPriceChanges = $('.datablurbox')
+      .eq(0)
+      .find('ul')
+      .find('li')
+      .map((i, el) => {
+        const children = $(el).children();
+        return {
+          earningsDate: $(children[0]).text().trim(),
+          closingPriceBeforeEarnings: $(children[1]).text().trim(),
+          nextDayClosingPrice: $(children[2]).text().trim(),
+          nextDayPriceChange: $(children[3]).text().trim(),
+          nextDayVolume: $(children[4]).text().trim(),
+          on7thDayClosingPrice: $(children[5]).text().trim(),
+          on7thDayPriceChange: $(children[6]).text().trim()
+        }
+      })
+      .get();
+
+      data.historicalVolatility = $('.datablurbox')
+        .eq(1)
+        .find('ul')
+        .find('li')
+        .map((i, el) => {
+          const children = $(el).children();
+          return {
+            earningsDate: $(children[0]).text().trim(),
+            openPrice: $(children[1]).text().trim(),
+            lowPrice: $(children[2]).text().trim(),
+            highPrice: $(children[3]).text().trim(),
+            closingPrice: $(children[4]).text().trim(),
+            volatility: $(children[5]).text().trim(),
+            closingPriceChange: $(children[6]).text().trim()
+          }
+        })
+        .get();
+
     resolve(data);
   });
 }

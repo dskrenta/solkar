@@ -6,19 +6,21 @@ from urlparse import urlparse
 
 def article_parse(url, page):
     parsed_url = urlparse(url)
-    soup = bs(page)
+    soup = bs(page, 'lxml')
     content = parse_content(soup)
     title = parse_title(soup)
 
+    print parsed_url
+
     return {
         'content': content,
-        'domain': parsed_url.hostname(),
+        #'domain': parsed_url.hostname(),
         'authors': parse_authors(soup),
         'url': url,
         'title': title,
         'date_published': parse_date_published(soup),
         'date_crawled': datetime.utcnow().isoformat(' '),
-        'lead_image_url': parse_lead_image(soup),
+        'article_image': get_meta_tag(soup, 'og:image'),
         'word_count': get_wordcount(),
         'page_hash': generate_page_hash(page),
         'stock_symbols': parse_stock_symbols(soup),
@@ -37,6 +39,9 @@ def get_main_content_div(soup):
         div_list.append(num_p)
 
     return div_list.index(max(div_list))
+
+def get_meta_tag(soup, name):
+    return soup.find('meta', {'property': name})['content'] or None
 
 def parse_content(soup):
     content = ''

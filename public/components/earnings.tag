@@ -1,4 +1,5 @@
 <earnings>
+  <h3>{ date }</h3>
   <table class="table table-bordered table-hover">
     <thead>
       <tr>
@@ -7,6 +8,7 @@
         <th>EPS Estimate*</th>
         <th>Time</th>
         <th>Average Daily Volume</th>
+        <th>Predicted Move</th>
         <th>Average Historical Earnings Suprise</th>
         <th>Last Trade</td>
       </tr>
@@ -18,6 +20,7 @@
         <td>{ eps }</td>
         <td>{ time }</td>
         <td>{ quoteData.averageDailyVolume ? quoteData.averageDailyVolume : 'N/A' }</td>
+        <td>{ earningsResearch.predictedMove }</td>
         <td>{ averageEarningsSuprise ? averageEarningsSuprise.toPrecision(4) : 'N/A' }</td>
         <td>{ quoteData.lastTradePriceOnly }</td>
       </tr>
@@ -54,18 +57,17 @@
       });
     }
 
-    function getDate () {
-      const date = new Date();
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}}`;
-    }
-
     this.on('mount', () => {
-      getEarningsData().then(result => {
-        console.log(`Results: ${JSON.stringify(result, null, '\t')}`);
-        self.items = result;
-        volumeSort();
-        self.update();
-      });
+      getEarningsData(opts.date)
+        .then(result => {
+          console.log(`Results: ${JSON.stringify(result, null, '\t')}`);
+          self.items = result;
+          volumeSort();
+          self.update();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     });
 
   </script>
