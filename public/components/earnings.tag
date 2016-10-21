@@ -50,7 +50,7 @@
     function getEarningsData () {
       return new Promise((resolve, reject) => {
         socket.on('api.getEarningsData:done', resolve);
-        socket.emit('api.getEarningsData', new Date('September 6, 2016').toString());
+        socket.emit('api.getEarningsData', '20161024');
       });
     }
 
@@ -61,7 +61,7 @@
 
     this.on('mount', () => {
       getEarningsData().then(result => {
-        console.log(JSON.stringify(result, null, '\t'));
+        console.log(`Results: ${JSON.stringify(result, null, '\t')}`);
         self.items = result;
         volumeSort();
         self.update();

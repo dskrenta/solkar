@@ -5,23 +5,26 @@ import yahooFinance from 'yahoo-finance';
 import loadDOM from './scrape';
 
 export async function earnings (dateString) {
-  try {
-    const date = new Date(dateString);
-    const url = URLFromDate(date);
-    const $ = await loadDOM(url);
-    const data = await parseEarnings($);
-    const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
-    const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
-    const quoteData = await Promise.all(quoteDataSymbols);
-    const supriseData = await Promise.all(earningsSupriseSymbols);
-    for (let i = 0; i < data.length; i++) {
-      data[i]['quoteData'] = quoteData[i];
-      data[i]['earningsHistory'] = supriseData[i];
+  if (dateString) {
+    try {
+      // const date = new Date(dateString);
+      // const url = URLFromDate(date);
+      const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
+      const $ = await loadDOM(url);
+      const data = await parseEarnings($);
+      const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
+      const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
+      const quoteData = await Promise.all(quoteDataSymbols);
+      const supriseData = await Promise.all(earningsSupriseSymbols);
+      for (let i = 0; i < data.length; i++) {
+        data[i]['quoteData'] = quoteData[i];
+        data[i]['earningsHistory'] = supriseData[i];
+      }
+      getAverageSuprise(data);
+      return data;
+    } catch (err) {
+      console.log(err);
     }
-    getAverageSuprise(data);
-    return data;
-  } catch (err) {
-    console.log(err);
   }
 }
 
