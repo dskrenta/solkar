@@ -50,17 +50,17 @@
       return `http:\/\/finance.yahoo.com/quote/${symbol}?p=${symbol}`;
     }
 
-    function getEarningsData (date) {
+    function getEarningsData () {
       return new Promise((resolve, reject) => {
         socket.on('api.getEarningsData:done', resolve);
-        socket.emit('api.getEarningsData', date);
+        socket.emit('api.getEarningsData', '20161024');
       });
     }
 
     this.on('mount', () => {
       getEarningsData(opts.date)
         .then(result => {
-          console.log(JSON.stringify(result, null, '\t'));
+          console.log(`Results: ${JSON.stringify(result, null, '\t')}`);
           self.items = result;
           volumeSort();
           self.update();

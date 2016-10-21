@@ -6,26 +6,28 @@ import yahooFinance from 'yahoo-finance';
 import loadDOM from './scrape';
 
 export async function earnings (dateString) {
-  try {
-    const url = URLFromDate(dateString);
-    const $ = await loadDOM(url);
-    const data = await parseEarnings($);
-    const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
-    const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
-    const earningsResearch = data.map(elem => getEarningsResearch(elem.symbol));
-    const quoteData = await Promise.all(quoteDataSymbols);
-    const supriseData = await Promise.all(earningsSupriseSymbols);
-    const researchData = await Promise.all(earningsResearch);
-    data['id'] = crypto.createHash('md5').update(dateString).digest('hex');
-    for (let i = 0; i < data.length; i++) {
-      data[i]['quoteData'] = quoteData[i];
-      data[i]['earningsHistory'] = supriseData[i];
-      data[i]['earningsResearch'] = researchData[i];
+  if (dateString) {
+    try {
+      const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
+      const $ = await loadDOM(url);
+      const data = await parseEarnings($);
+      const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
+      const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
+      const earningsResearch = data.map(elem => getEarningsResearch(elem.symbol));
+      const quoteData = await Promise.all(quoteDataSymbols);
+      const supriseData = await Promise.all(earningsSupriseSymbols);
+      const researchData = await Promise.all(earningsResearch);
+      data['id'] = crypto.createHash('md5').update(dateString).digest('hex');
+      for (let i = 0; i < data.length; i++) {
+        data[i]['quoteData'] = quoteData[i];
+        data[i]['earningsHistory'] = supriseData[i];
+        data[i]['earningsResearch'] = researchData[i];
+      }
+      getAverageSuprise(data);
+      return data;
+    } catch (err) {
+      console.log(`Earnings error: ${err}`);
     }
-    getAverageSuprise(data);
-    return data;
-  } catch (err) {
-    console.log(`Earnings error: ${err}`);
   }
 }
 

@@ -18,6 +18,12 @@
         <ul class="nav navbar-nav">
           <li><a href="#/earnings">Earnings</a></li>
           <li><a href="#/article-table">article</a></li>
+            <dropdown>
+              <li>Test1</li>
+              <li>Test2</li>
+              <li>Test3</li>
+              <li>Test4</li>
+            </dropdown>
         </ul>
         <!--
         <ul class="nav navbar-nav navbar-right">
