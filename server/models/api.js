@@ -6,7 +6,6 @@ import { earnings } from '../scrapper/earnings';
 export default Observable({
   getEarningsData(input, ctx) {
     earnings(input).then(result => {
-      console.log(result);
       this.trigger('api.getEarningsData:done', ctx, result);
     });
   },

@@ -10,26 +10,54 @@ export async function earnings (dateString) {
     try {
       const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
       const $ = await loadDOM(url);
-      const data = await parseEarnings($);
-      const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
-      const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
-      const earningsResearch = data.map(elem => getEarningsResearch(elem.symbol));
+      const earnings = await parseEarnings($);
+      const finalEarnings = [];
+      const count = earnings.length;
+      const quoteDataSymbols = earnings.map(elem => getQuoteInfo(elem.symbol));
+      const earningsResearch = earnings.map(elem => getEarningsResearch(elem.symbol));
       const quoteData = await Promise.all(quoteDataSymbols);
-      const supriseData = await Promise.all(earningsSupriseSymbols);
       const researchData = await Promise.all(earningsResearch);
-      data['id'] = crypto.createHash('md5').update(dateString).digest('hex');
-      for (let i = 0; i < data.length; i++) {
-        data[i]['quoteData'] = quoteData[i];
-        data[i]['earningsHistory'] = supriseData[i];
-        data[i]['earningsResearch'] = researchData[i];
+      for (let i = 0; i < count; i++) {
+        let data = earnings[i];
+        data['quoteData'] = quoteData[i];
+        data['earningsResearch'] = researchData[i];
+        finalEarnings.push(data);
       }
-      getAverageSuprise(data);
-      return data;
+      return finalEarnings;
     } catch (err) {
-      console.log(`Earnings error: ${err}`);
+      console.log(`Main Earnings error: ${err}`);
     }
   }
 }
+
+/*
+export async function earnings (dateString) {
+  if (dateString) {
+    try {
+      const url = `https:\/\/biz.yahoo.com/research/earncal/${dateString}.html`;
+      const $ = await loadDOM(url);
+      const data = await parseEarnings($);
+      console.log(`data: ${data}`);
+      const quoteDataSymbols = data.map(elem => getQuoteInfo(elem.symbol));
+      // const earningsSupriseSymbols = data.map(elem => getEarningsHistory(elem.symbol));
+      const earningsResearch = data.map(elem => getEarningsResearch(elem.symbol));
+      const quoteData = await Promise.all(quoteDataSymbols);
+      // const supriseData = await Promise.all(earningsSupriseSymbols);
+      const researchData = await Promise.all(earningsResearch);
+      // data['id'] = crypto.createHash('md5').update(dateString).digest('hex');
+      for (let i = 0; i < data.length; i++) {
+        data[i]['quoteData'] = quoteData[i];
+        // data[i]['earningsHistory'] = supriseData[i];
+        data[i]['earningsResearch'] = researchData[i];
+      }
+      // getAverageSuprise(data);
+      return data;
+    } catch (err) {
+      console.log(`Main Earnings error: ${err}`);
+    }
+  }
+}
+*/
 
 export async function getEarningsHistory (symbol) {
   try {
@@ -37,7 +65,7 @@ export async function getEarningsHistory (symbol) {
     const data = await parseEarningsHistory($);
     return data;
   } catch (err) {
-    console.log(err);
+    console.log(`Earnings History error: ${err}`);
   }
 }
 
@@ -47,7 +75,7 @@ export async function getEarningsResearch (symbol) {
     const data = await parseEarningsResearch($, symbol);
     return data;
   } catch (err) {
-    console.log(err);
+    console.log(`Earnings Research error: ${err}`);
   }
 }
 

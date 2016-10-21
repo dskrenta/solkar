@@ -50,10 +50,10 @@
       return `http:\/\/finance.yahoo.com/quote/${symbol}?p=${symbol}`;
     }
 
-    function getEarningsData () {
+    function getEarningsData (dateString) {
       return new Promise((resolve, reject) => {
         socket.on('api.getEarningsData:done', resolve);
-        socket.emit('api.getEarningsData', '20161024');
+        socket.emit('api.getEarningsData', dateString);
       });
     }
 
