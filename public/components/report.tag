@@ -44,6 +44,9 @@
 
     function volumeSort () {
       self.items = self.items
+        .filter(value => value.earningsResearch ? value['earningsResearch']['predictedMove'] : false)
+        .filter(value => parseInt(value.earningsResearch.predictedMove) >= 5)
+        .filter(value => value.quoteData.averageDailyVolume > 250000)
         .sort(sortByAverageDailyVolume)
         .reverse();
     }
