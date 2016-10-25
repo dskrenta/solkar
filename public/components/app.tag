@@ -11,14 +11,10 @@
       if (!page) {
         riot.mount('#view', defaultTag);
       } else {
-        switch (page) {
-          case 'earnings':
-            // get date from url
-            riot.mount('#view', page, {date: option});
-            break;
-          default:
-            riot.mount('#view', page);
-            break;
+        if (page === 'earnings' || page === 'report') {
+          riot.mount('#view', page, {date: option});
+        } else {
+          riot.mount('#view', page);
         }
       }
     });
