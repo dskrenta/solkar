@@ -1,35 +1,63 @@
 <report>
-  <h3>{ date }</h3>
-  <table class="table table-bordered table-hover">
-    <thead>
-      <tr>
-        <th>Company</th>
-        <th>Symbol</th>
-        <th>EPS Estimate</th>
-        <th>Time</th>
-        <th>Average Daily Volume</th>
-        <th>Predicted Move</th>
-        <th>Average Historical Earnings Suprise</th>
-        <th>Last Trade</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr each={ items }>
-        <td><a href={ yahooFinanceURL(symbol) } target="_blank">{ company }</a></td>
-        <td>{ symbol }</td>
-        <td>{ eps }</td>
-        <td>{ time }</td>
-        <td>{ quoteData.averageDailyVolume ? quoteData.averageDailyVolume : 'N/A' }</td>
-        <td>{ earningsResearch.predictedMove }</td>
-        <td>{ averageEarningsSuprise ? averageEarningsSuprise.toPrecision(4) : 'N/A' }</td>
-        <td>{ quoteData.lastTradePriceOnly }</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="container">
+    <h3>{ date }</h3>
+    <form class="input-form" onsubmit={ handler }>
+      <div class="form-group">
+        <label class="form-label">Minimum Average Daily Volume</label>
+        <input type="text" class="form-input" value={ filter.minVolume }></input>
+        <label class="form-label">Minimum Predicted Move</label>
+        <input type="text" class="form-input" value={ filter.minMove }></input>
+        <button type="submit" class="btn btn-primary input-group-btn btn-block">Update</button>
+      </div>
+    </form>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Company</th>
+          <th>EPS Estimate</th>
+          <th>Time</th>
+          <th>Average Daily Volume</th>
+          <th>Predicted Move</th>
+          <th>Earnings Suprise</th>
+          <th>Last Trade</th>
+          <th>Short Ratio</th>
+          <th>Market Cap</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr each={ items }>
+          <td><a href={ yahooFinanceURL(symbol) } target="_blank">{ symbol }</a></td>
+          <td>{ company }</td>
+          <td>{ eps }</td>
+          <td>{ time }</td>
+          <td>{ quoteData.averageDailyVolume ? quoteData.averageDailyVolume : 'N/A' }</td>
+          <td>{ earningsResearch.predictedMove }</td>
+          <td>{ averageEarningsSuprise ? averageEarningsSuprise.toPrecision(4) : 'N/A' }</td>
+          <td>{ quoteData.lastTradePriceOnly }</td>
+          <td>{ quoteData.shortRatio }</td>
+          <td>{ quoteData.marketCapitalization }</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <script>
     const self = this;
+    this.earnings = [];
     this.items = [];
+    this.filter = {
+      minVolume: 1000000,
+      minMove: 5,
+    };
+    this.date = opts.date;
+
+    handler (event) {
+      self.filter.minVolume = event.target[0].value;
+      self.filter.minMove = event.target[1].value;
+      console.log(self.filter.minMove, self.filter.minVolume);
+      filter();
+    }
 
     function request (url, callback)  {
       const xhr = new XMLHttpRequest();
@@ -46,29 +74,37 @@
       return `http:\/\/finance.yahoo.com/quote/${symbol}`;
     }
 
-    function volumeSort () {
+    function filter () {
+      self.items = self.earnings;
       self.items = self.items
         .filter(value => value.earningsResearch ? value['earningsResearch']['predictedMove'] : false)
-        .filter(value => parseInt(value.earningsResearch.predictedMove) >= 5)
-        .filter(value => value.quoteData.averageDailyVolume > 250000)
-        .sort(sortByAverageDailyVolume)
-        .reverse();
+        .filter(value => parseInt(value.earningsResearch.predictedMove) >= self.filter.minMove)
+        .filter(value => value.quoteData.averageDailyVolume >= self.filter.minVolume)
+        .sort(sortByPredictedMove);
+      self.update();
     }
 
     function sortByAverageDailyVolume (a, b) {
       let keyA = a.quoteData.averageDailyVolume;
       let keyB = b.quoteData.averageDailyVolume;
-      if (keyA < keyB) return -1;
-      if (keyA > keyB) return 1;
+      if (keyA < keyB) return 1;
+      if (keyA > keyB) return -1;
+      return 0;
+    }
+
+    function sortByPredictedMove (a, b) {
+      let keyA = parseInt(a.earningsResearch.predictedMove);
+      let keyB = parseInt(b.earningsResearch.predictedMove);
+      if (keyA < keyB) return 1;
+      if (keyA > keyB) return -1;
       return 0;
     }
 
     function getEarningsData (dateString) {
       const requestUrl = `https:\/\/s3-us-west-1.amazonaws.com/earnings-data/${dateString}.json`;
       request(requestUrl, (response) => {
-        self.items = JSON.parse(response);
-        volumeSort();
-        self.update();
+        self.earnings = JSON.parse(response);
+        filter();
       });
     }
 
