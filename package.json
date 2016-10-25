@@ -32,7 +32,6 @@
     "koa-router": "^7.0.1",
     "koa-serve-static": "^1.0.0",
     "koa-socket": "^4.4.0",
-    "request": "^2.74.0",
     "riot": "^2.5.0",
     "riot-observable": "^3.0.0-alpha.1",
     "yahoo-finance": "^0.2.14"

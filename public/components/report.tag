@@ -1,11 +1,11 @@
-<earnings>
+<report>
   <h3>{ date }</h3>
   <table class="table table-bordered table-hover">
     <thead>
       <tr>
         <th>Company</th>
         <th>Symbol</th>
-        <th>EPS Estimate*</th>
+        <th>EPS Estimate</th>
         <th>Time</th>
         <th>Average Daily Volume</th>
         <th>Predicted Move</th>
@@ -29,11 +29,28 @@
 
   <script>
     const self = this;
-    const socket = io();
     this.items = [];
+
+    function request (url, callback)  {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          callback(xhr.responseText);
+        }
+      }
+      xhr.open("GET", url, true);
+      xhr.send(null);
+    }
+
+    yahooFinanceURL (symbol) {
+      return `http:\/\/finance.yahoo.com/quote/${symbol}`;
+    }
 
     function volumeSort () {
       self.items = self.items
+        .filter(value => value.earningsResearch ? value['earningsResearch']['predictedMove'] : false)
+        .filter(value => parseInt(value.earningsResearch.predictedMove) >= 5)
+        .filter(value => value.quoteData.averageDailyVolume > 250000)
         .sort(sortByAverageDailyVolume)
         .reverse();
     }
@@ -46,29 +63,17 @@
       return 0;
     }
 
-    yahooFinanceURL (symbol) {
-      return `http:\/\/finance.yahoo.com/quote/${symbol}?p=${symbol}`;
-    }
-
     function getEarningsData (dateString) {
-      return new Promise((resolve, reject) => {
-        socket.on('api.getEarningsData:done', resolve);
-        socket.emit('api.getEarningsData', dateString);
+      const requestUrl = `https:\/\/s3-us-west-1.amazonaws.com/earnings-data/${dateString}.json`;
+      request(requestUrl, (response) => {
+        self.items = JSON.parse(response);
+        volumeSort();
+        self.update();
       });
     }
 
     this.on('mount', () => {
-      getEarningsData(opts.date)
-        .then(result => {
-          console.log(`Results: ${JSON.stringify(result, null, '\t')}`);
-          self.items = result;
-          volumeSort();
-          self.update();
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      getEarningsData(opts.date);
     });
-
   </script>
-</earnings>
+</report>

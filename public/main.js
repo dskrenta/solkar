@@ -9,6 +9,7 @@ import './components/dropdown.tag';
 import './components/modal-large.tag';
 import './components/editor.tag';
 import './components/earningsv2.tag'
+import './components/report.tag';
 
 riot.mount('app');
 riot.route.start(true);
