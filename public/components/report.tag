@@ -42,6 +42,10 @@
       xhr.send(null);
     }
 
+    yahooFinanceURL (symbol) {
+      return `http:\/\/finance.yahoo.com/quote/${symbol}`;
+    }
+
     function volumeSort () {
       self.items = self.items
         .filter(value => value.earningsResearch ? value['earningsResearch']['predictedMove'] : false)
