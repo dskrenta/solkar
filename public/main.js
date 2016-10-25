@@ -8,6 +8,7 @@ import './components/dash-header.tag';
 import './components/dropdown.tag';
 import './components/modal-large.tag';
 import './components/editor.tag';
+import './components/report.tag';
 
 riot.mount('app');
 riot.route.start(true);
