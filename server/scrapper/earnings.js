@@ -115,7 +115,7 @@ function parseEarnings ($) {
           const children = $(el).children();
           const time = $(children[3]).text();
           const symbol = $(children[1]).text();
-          if (time === 'Before Market Open' || time === 'After Market Close') {
+          if (time === 'Before Market Open' || time === 'After Market Close' || time === 'Time Not Supplied') {
             return {
               company: $(children[0]).text(),
               symbol: symbol,
