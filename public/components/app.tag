@@ -1,8 +1,5 @@
 <app>
-  <dash-header></dash-header>
-  <div class="container">
-    <div id="view"></div>
-  </div>
+  <div id="view"></div>
 
   <script>
     const defaultTag = 'earnings';
