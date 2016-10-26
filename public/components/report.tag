@@ -7,6 +7,18 @@
         <input type="text" class="form-input" value={ filter.minVolume }></input>
         <label class="form-label">Minimum Predicted Move</label>
         <input type="text" class="form-input" value={ filter.minMove }></input>
+        <label class="form-checkbox">
+            <input type="checkbox" checked />
+            <i class="form-icon"></i> Before Market Open
+        </label>
+        <label class="form-checkbox">
+            <input type="checkbox" checked />
+            <i class="form-icon"></i> After Market Close
+        </label>
+        <label class="form-checkbox">
+            <input type="checkbox" checked />
+            <i class="form-icon"></i> Time Not Supplied
+        </label>
         <button type="submit" class="btn btn-primary input-group-btn btn-block">Update</button>
       </div>
     </form>
@@ -49,13 +61,18 @@
     this.filter = {
       minVolume: 1000000,
       minMove: 5,
+      bmo: true,
+      amc: true,
+      tns: true
     };
     this.date = opts.date;
 
     handler (event) {
       self.filter.minVolume = event.target[0].value;
       self.filter.minMove = event.target[1].value;
-      console.log(self.filter.minMove, self.filter.minVolume);
+      self.filter.bmo = event.target[2].checked;
+      self.filter.amc = event.target[3].checked;
+      self.filter.tms = event.target[4].checked;
       filter();
     }
 
