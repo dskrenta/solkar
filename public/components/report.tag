@@ -8,6 +8,9 @@
         <label class="form-label">Minimum Predicted Move</label>
         <input type="text" class="form-input" value={ filter.minMove }></input>
         <button type="submit" class="btn btn-primary input-group-btn btn-block">Update</button>
+        <bmo></bmo>
+        <amc></amc>
+        <tns></tns>
       </div>
     </form>
     <table class="table table-bordered table-hover">
@@ -73,6 +76,10 @@
     yahooFinanceURL (symbol) {
       return `http:\/\/finance.yahoo.com/quote/${symbol}`;
     }
+
+    /*function optionURL (symbol) {
+      return `http:\/\/finance.yahoo.com/quote/${symbol}/options?p=${symbol}&straddle=true`;
+    }*/
 
     function filter () {
       self.items = self.earnings;
