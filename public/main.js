@@ -13,6 +13,7 @@ import './components/report.tag';
 import './components/bmo.tag';
 import './components/amc.tag';
 import './components/tns.tag';
+import './components/time-icon.tag';
 
 riot.mount('app');
 riot.route.start(true);

@@ -20,9 +20,6 @@
             <i class="form-icon"></i> Time Not Supplied
         </label>
         <button type="submit" class="btn btn-primary input-group-btn btn-block">Update</button>
-        <bmo></bmo>
-        <amc></amc>
-        <tns></tns>
       </div>
     </form>
     <table class="table table-bordered table-hover">
@@ -32,9 +29,9 @@
           <th>Company</th>
           <th>EPS Estimate</th>
           <th>Time</th>
+          <th></th>
           <th>Average Daily Volume</th>
           <th>Predicted Move</th>
-          <th>Earnings Suprise</th>
           <th>Last Trade</th>
           <th>Short Ratio</th>
           <th>Market Cap</th>
@@ -46,9 +43,9 @@
           <td>{ company }</td>
           <td>{ eps }</td>
           <td>{ time }</td>
+          <td><time-icon time={ time } /></td>
           <td>{ quoteData.averageDailyVolume ? quoteData.averageDailyVolume : 'N/A' }</td>
           <td>{ earningsResearch.predictedMove }</td>
-          <td>{ averageEarningsSuprise ? averageEarningsSuprise.toPrecision(4) : 'N/A' }</td>
           <td>{ quoteData.lastTradePriceOnly }</td>
           <td>{ quoteData.shortRatio }</td>
           <td>{ quoteData.marketCapitalization }</td>
@@ -93,10 +90,6 @@
     yahooFinanceURL (symbol) {
       return `http:\/\/finance.yahoo.com/quote/${symbol}`;
     }
-
-    /*function optionURL (symbol) {
-      return `http:\/\/finance.yahoo.com/quote/${symbol}/options?p=${symbol}&straddle=true`;
-    }*/
 
     function filter () {
       self.items = self.earnings;
