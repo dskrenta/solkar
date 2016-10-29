@@ -14,6 +14,8 @@ import './components/bmo.tag';
 import './components/amc.tag';
 import './components/tns.tag';
 import './components/time-icon.tag';
+import './components/option-caculator.tag';
+import './components/option.tag';
 
 riot.mount('app');
 riot.route.start(true);
