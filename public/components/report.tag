@@ -95,6 +95,7 @@
         .filter(value => value.earningsResearch ? value['earningsResearch']['predictedMove'] : false)
         .filter(value => parseInt(value.earningsResearch.predictedMove) >= self.filter.minMove)
         .filter(value => value.quoteData.averageDailyVolume >= self.filter.minVolume)
+        .filter(value => !value.quoteData.marketCapitalization.endsWith('M'))
         .sort(sortByPredictedMove);
       self.update();
     }
