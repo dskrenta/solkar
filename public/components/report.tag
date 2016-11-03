@@ -57,7 +57,7 @@
     this.earnings = [];
     this.items = [];
     this.filter = {
-      minVolume: 1000000,
+      minVolume: 500000,
       minMove: 5,
       bmo: true,
       amc: true,
