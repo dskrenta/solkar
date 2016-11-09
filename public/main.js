@@ -14,7 +14,12 @@ import './components/bmo.tag';
 import './components/amc.tag';
 import './components/tns.tag';
 import './components/time-icon.tag';
+<<<<<<< HEAD
 import './components/tracker.tag';
+=======
+import './components/option-calculator.tag';
+import './components/option.tag';
+>>>>>>> d34f28d2a23b43ce69a23038f7a1369a1ed819b6
 
 riot.mount('app');
 riot.route.start(true);
