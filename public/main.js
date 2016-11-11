@@ -14,13 +14,41 @@ import './components/bmo.tag';
 import './components/amc.tag';
 import './components/tns.tag';
 import './components/time-icon.tag';
-<<<<<<< HEAD
 import './components/tracker.tag';
-=======
 import './components/option-calculator.tag';
 import './components/option.tag';
->>>>>>> d34f28d2a23b43ce69a23038f7a1369a1ed819b6
+import './components/options-main.tag';
 
+const globalMixin = {
+  request: (url, callback) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        callback(xhr.responseText);
+      }
+    }
+    xhr.open("GET", url, true);
+    xhr.send(null);
+  },
+  hello: () => {
+    console.log('Hello, world!');
+  }
+};
+
+riot.mixin(globalMixin);
 riot.mount('app');
 riot.route.start(true);
 riot.route.exec();
+
+/*
+function request (url, callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      callback(xhr.responseText);
+    }
+  }
+  xhr.open("GET", url, true);
+  xhr.send(null);
+}
+*/
