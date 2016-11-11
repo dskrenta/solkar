@@ -1,4 +1,4 @@
-<option>
+<option-calculator>
   <div class="container">
     <h1>Options Calculator</h1>
     <form class="input-form" onsubmit={ handler }>
@@ -184,4 +184,4 @@
     }
 
   </script>
-</option>
+</option-calculator>
