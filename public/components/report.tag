@@ -29,7 +29,6 @@
           <th>Company</th>
           <th>EPS Estimate</th>
           <th>Time</th>
-          <th></th>
           <th>Average Daily Volume</th>
           <th>Predicted Move</th>
           <th>Last Trade</th>
@@ -42,8 +41,7 @@
           <td><a href={ yahooFinanceURL(symbol) } target="_blank">{ symbol }</a></td>
           <td>{ company }</td>
           <td>{ eps }</td>
-          <td>{ time }</td>
-          <td><time-icon time={ time } /></td>
+          <td><time-icon time={ time } class="tooltip tooltip-left" data-tooltip={ time }/></td>
           <td>{ quoteData.averageDailyVolume ? quoteData.averageDailyVolume : 'N/A' }</td>
           <td>{ earningsResearch.predictedMove }</td>
           <td>{ quoteData.lastTradePriceOnly }</td>
@@ -59,7 +57,7 @@
     this.earnings = [];
     this.items = [];
     this.filter = {
-      minVolume: 1000000,
+      minVolume: 500000,
       minMove: 5,
       bmo: true,
       amc: true,
@@ -97,6 +95,7 @@
         .filter(value => value.earningsResearch ? value['earningsResearch']['predictedMove'] : false)
         .filter(value => parseInt(value.earningsResearch.predictedMove) >= self.filter.minMove)
         .filter(value => value.quoteData.averageDailyVolume >= self.filter.minVolume)
+        .filter(value => !value.quoteData.marketCapitalization.endsWith('M'))
         .sort(sortByPredictedMove);
       self.update();
     }

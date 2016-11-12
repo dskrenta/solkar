@@ -3,7 +3,7 @@ import Koa from 'koa';
 import fs from 'fs';
 import serveStatic from 'koa-serve-static';
 import Socket from './transport';
-import router from './routes/demo';
+import router from './routes/routes';
 
 const app = new Koa();
 const PORT = 3000;
