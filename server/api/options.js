@@ -16,7 +16,6 @@ function getOptionChain (symbol) {
       if (error) {
         reject(error);
       } else {
-        console.log(body);
         resolve(body);
       }
     });

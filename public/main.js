@@ -17,7 +17,7 @@ import './components/time-icon.tag';
 import './components/tracker.tag';
 import './components/option-calculator.tag';
 import './components/option.tag';
-import './components/options-main.tag';
+import './components/options-chain.tag';
 
 const globalMixin = {
   request: (url, callback) => {
@@ -29,9 +29,6 @@ const globalMixin = {
     }
     xhr.open("GET", url, true);
     xhr.send(null);
-  },
-  hello: () => {
-    console.log('Hello, world!');
   }
 };
 
