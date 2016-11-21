@@ -17,10 +17,7 @@ import './components/time-icon.tag';
 import './components/tracker.tag';
 import './components/option-calculator.tag';
 import './components/option.tag';
-<<<<<<< HEAD
-=======
 import './components/options-chain.tag';
->>>>>>> ad2cdd2f56e666f127f1da14786e8cbed3db5225
 
 const globalMixin = {
   request: (url, callback) => {
