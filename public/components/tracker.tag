@@ -20,7 +20,7 @@
       <div class="columns">
         <div class="column col-3"></div>
         <div class="column col-6 center">
-          <button type="submit" class="btn btn-primary input-group-btn btn-block">Update</button>
+          <button type="submit" class="btn btn-primary btn-lg input-group-btn btn-block">Update</button>
         </div>
         <div class="column col-3"></div>
       </div>
@@ -41,7 +41,7 @@
 
   <script>
   const self = this;
-  let data = {
+  const data = {
     totgas: 0,
     mile: 0
   };
@@ -49,7 +49,8 @@
   let cpm = 0;
   console.log("hello");
   add(event) {
-    data.totgas = data.totgas + event.target.value[1];
+    console.log(event.target.value[0], event.target.value[1]);
+    data.totgas += event.target.value[1];
     data.mile +=  event.target.value[0];
     console.log(data.totgas);
     console.log(data.mile);
