@@ -1,12 +1,14 @@
 'use strict';
 import request from 'request';
+import { blackScholesCall, blackScholesPut } from 'blackScholes';
 
 export default async function options (symbol) {
   try {
-    const options = await getOptionChain(symbol);
+    let options = await getOptionChain(symbol);
     let data = JSON.parse(options);
-    data = JSON.stringify(reformatOptionChain(data));
-    return data;
+    data = reformatOptionChain(data);
+    let json = JSON.stringify(data);
+    return json;
   } catch (err) {
     console.log(err);
   }
@@ -41,3 +43,25 @@ function getOptionChain (symbol) {
     });
   });
 }
+
+/*
+function solveImpliedVolatility (type, x, realPrice, expiration, dividendYield = 0) {
+  return new Promise((resolve, reject) => {
+    let min = 0;
+    let max = 500;
+    let mid = 0;
+    while (min <= max) {
+      mid = (min + max) / 2;
+      let genPrice = 0;
+      if (genPrice > realPrice) {
+        // if generated call/put price is too high set max to mid
+        max = mid - 1;
+      } else {
+        // if generated call/put price is too low set min to mid
+        min = mid + 1;
+      }
+    }
+    resolve(mid);
+  });
+}
+*/
