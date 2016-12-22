@@ -1,6 +1,6 @@
 'use strict';
 import request from 'request';
-import { blackScholesCall, blackScholesPut } from 'blackScholes';
+import { blackScholesCall, blackScholesPut } from './blackScholes';
 
 export default async function options (symbol) {
   try {
