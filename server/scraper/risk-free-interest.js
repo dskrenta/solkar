@@ -1,6 +1,4 @@
 'use strict';
-import request from 'request';
-import cheerio from 'cheerio';
 import loadDOM from './scrape';
 
 export default async function riskFreeInterest () {

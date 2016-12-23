@@ -9,6 +9,19 @@
   t = time to expiration (% of year)
 */
 
+export function blackScholes (type, s, x, v, r, q, t) {
+  if (type === 'call') {
+    let term1 = s * Math.pow(Math.e, (-q * t)) * N(d1(s, x, v, r, q, t));
+    let term2 = x * Math.pow(Math.e, (-r * t)) * N(d2(s, x, v, r, q, t));
+    return term1 - term2;
+  } else if (type === 'put') {
+    let term1 = x * Math.pow(Math.e, (-r * t)) * N(-1 * d2(s, x, v, r, q, t));
+    let term2 = s * Math.pow(Math.e, (-q * t)) * N(-1 * d1(s, x, v, r, q, t));
+    return term1 - term2;
+  }
+}
+
+/*
 export function blackScholesCall (s, x, v, r, q, t) {
   let term1 = s * Math.pow(Math.e, (-q * t)) * N(d1(s, x, v, r, q, t));
   let term2 = x * Math.pow(Math.e, (-r * t)) * N(d2(s, x, v, r, q, t));
@@ -20,6 +33,7 @@ export function blackScholesPut (s, x, v, r, q, t) {
   let term2 = s * Math.pow(Math.e, (-q * t)) * N(-1 * d1(s, x, v, r, q, t));
   return term1 - term2;
 }
+*/
 
 function d1 (s, x, v, r, q, t) {
   let term1 = Math.ln(s / x);

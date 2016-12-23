@@ -1,12 +1,17 @@
 'use strict';
 import request from 'request';
-import { blackScholesCall, blackScholesPut } from './blackScholes';
+import yahooFinance from 'yahoo-finance';
+import blackScholes from './blackScholes';
+import riskFreeInterest from '../scraper/risk-free-interest';
+import earningsSnapshot from '../scraper/earnings-snapshot';
 
 export default async function options (symbol) {
   try {
     let options = await getOptionChain(symbol);
     let data = JSON.parse(options);
     data = reformatOptionChain(data);
+    data.quoteSnapshot = await getQuoteInfo(symbol);
+    data.earningsSnapshot = await earningsSnapshot(symbol);
     return JSON.stringify(data);
   } catch (err) {
     console.log(err);
@@ -43,24 +48,31 @@ function getOptionChain (symbol) {
   });
 }
 
-/*
-function solveImpliedVolatility (type, x, realPrice, expiration, dividendYield = 0) {
+function getQuoteInfo (symbol, fields) {
+  return yahooFinance.snapshot({
+    symbol: symbol,
+    fields: fields
+  });
+}
+
+function formatExpiration (expiration) {
+  // days until expiration, convert to percent of year
+}
+
+function solveImpliedVolatility (type, s, x, v, r, t, q = 0) {
   return new Promise((resolve, reject) => {
     let min = 0;
     let max = 500;
     let mid = 0;
     while (min <= max) {
       mid = (min + max) / 2;
-      let genPrice = 0;
+      let genPrice = blackScholes(type, s, x, v, r, q, t);
       if (genPrice > realPrice) {
-        // if generated call/put price is too high set max to mid
         max = mid - 1;
       } else {
-        // if generated call/put price is too low set min to mid
         min = mid + 1;
       }
     }
     resolve(mid);
   });
 }
-*/
