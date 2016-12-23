@@ -7,8 +7,7 @@ export default async function options (symbol) {
     let options = await getOptionChain(symbol);
     let data = JSON.parse(options);
     data = reformatOptionChain(data);
-    let json = JSON.stringify(data);
-    return json;
+    return JSON.stringify(data);
   } catch (err) {
     console.log(err);
   }
