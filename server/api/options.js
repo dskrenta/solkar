@@ -1,12 +1,18 @@
 'use strict';
 import request from 'request';
+import yahooFinance from 'yahoo-finance';
+import blackScholes from './blackScholes';
+import riskFreeInterest from '../scraper/risk-free-interest';
+import earningsSnapshot from '../scraper/earnings-snapshot';
 
 export default async function options (symbol) {
   try {
-    const options = await getOptionChain(symbol);
+    let options = await getOptionChain(symbol);
     let data = JSON.parse(options);
-    data = JSON.stringify(reformatOptionChain(data));
-    return data;
+    data = reformatOptionChain(data);
+    data.quoteSnapshot = await getQuoteInfo(symbol);
+    data.earningsSnapshot = await earningsSnapshot(symbol);
+    return JSON.stringify(data);
   } catch (err) {
     console.log(err);
   }
@@ -39,5 +45,34 @@ function getOptionChain (symbol) {
         resolve(validateOptionsJSON(body));
       }
     });
+  });
+}
+
+function getQuoteInfo (symbol, fields) {
+  return yahooFinance.snapshot({
+    symbol: symbol,
+    fields: fields
+  });
+}
+
+function formatExpiration (expiration) {
+  // days until expiration, convert to percent of year
+}
+
+function solveImpliedVolatility (type, s, x, v, r, t, q = 0) {
+  return new Promise((resolve, reject) => {
+    let min = 0;
+    let max = 500;
+    let mid = 0;
+    while (min <= max) {
+      mid = (min + max) / 2;
+      let genPrice = blackScholes(type, s, x, v, r, q, t);
+      if (genPrice > realPrice) {
+        max = mid - 1;
+      } else {
+        min = mid + 1;
+      }
+    }
+    resolve(mid);
   });
 }
