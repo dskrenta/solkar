@@ -1,7 +1,7 @@
 'use strict';
 import Observable from 'riot-observable';
 import square from '../api/square';
-import { earnings } from '../scrapper/earnings';
+import { earnings } from '../scraper/earnings';
 
 export default Observable({
   getEarningsData(input, ctx) {
