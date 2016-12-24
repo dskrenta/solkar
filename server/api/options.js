@@ -31,9 +31,9 @@ function reformatOptionChain (data) {
   return finalObject;
 }
 
-function validateOptionsJSON (text) {
-  text = text.replace(/(\w+:)(\d+\.?\d*)/g, '$1\"$2\"');
-  return text.replace(/(\w+):/g, '\"$1\":');
+function validateOptionsJSON (string) {
+  string = string.replace(/(\w+:)(\d+\.?\d*)/g, '$1\"$2\"');
+  return string.replace(/(\w+):/g, '\"$1\":');
 }
 
 function getOptionChain (symbol) {
