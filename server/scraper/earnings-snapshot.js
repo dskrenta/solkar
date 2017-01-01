@@ -15,6 +15,7 @@ function parseEarningsResearch ($, symbol) {
   return new Promise((resolve, reject) => {
     const data = {};
     data.symbol = symbol;
+    data.date = $('#ContentPlaceHolder1_lblEarningDate').text();
     data.snippet = $('#ContentPlaceHolder1_lbltotaltime').text();
     data.predictedMove = $('#ContentPlaceHolder1_lblpredictedmove').text();
     data.stockExchange = $('#ContentPlaceHolder1_lblStockExchange').text();
