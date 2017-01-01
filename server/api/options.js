@@ -71,21 +71,21 @@ function getQuoteInfo (symbol, fields) {
 function formatExpiration (dateString) {
   let currentDate = new Date();
   let expirationDate = new Date(dateString);
-  let difference = expirationDate.getTime() - currentDate.getTime();
-  const onePercentYearMilliseconds = Math.pow(3.154 * 10, 8);
-  let percentOfYear = difference / onePercentYearMilliseconds;
+  let millisecondDifference = expirationDate.getTime() - currentDate.getTime();
+  let hourDifference = millisecondDifference / 1000 / 60 / 60;
+  let percentOfYear = hourDifference / 87.6;
   return percentOfYear;
 }
 
 function solveImpliedVolatility (type, s, x, r, t, realPrice) {
   return new Promise((resolve, reject) => {
     let min = 0;
-    let max = 500;
+    let max = 300;
     let mid = 0;
     while (min <= max) {
       mid = (min + max) / 2;
       let genPrice = blackScholes(type, s, x, mid, r, t);
-      console.log('genPrice: ' + genPrice);
+      console.log(`genPrice: ${genPrice}, realPrice: ${realPrice}`);
       if (genPrice > realPrice) {
         max = mid - 1;
       } else {

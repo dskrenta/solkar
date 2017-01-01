@@ -28,6 +28,7 @@
   "homepage": "https://github.com/dskrenta/solkar#readme",
   "dependencies": {
     "cheerio": "^0.22.0",
+    "distributions-normal-cdf": "0.0.2",
     "koa": "^2.0.0",
     "koa-router": "^7.0.1",
     "koa-serve-static": "^1.0.0",
