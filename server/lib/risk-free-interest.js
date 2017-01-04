@@ -1,5 +1,5 @@
 'use strict';
-import loadDOM from './scrape';
+import loadDOM from '../scraper/scrape';
 
 export default async function riskFreeInterest () {
   const url = 'https://ycharts.com/indicators/3_month_t_bill';

@@ -2,7 +2,7 @@
 import request from 'request';
 import yahooFinance from 'yahoo-finance';
 import earningsSnapshot from '../scraper/earnings-snapshot';
-import greeks from './greeks';
+import greeks from '../lib/greeks';
 
 export default async function options (symbol) {
   try {

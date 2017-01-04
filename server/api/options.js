@@ -1,8 +1,8 @@
 'use strict';
 import request from 'request';
 import yahooFinance from 'yahoo-finance';
-import blackScholes from './blackScholes';
-import riskFreeInterest from '../scraper/risk-free-interest';
+import blackScholes from '../lib/blackScholes';
+import riskFreeInterest from '../lib/risk-free-interest';
 import earningsSnapshot from '../scraper/earnings-snapshot';
 
 export default async function options (symbol) {
