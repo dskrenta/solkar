@@ -6,9 +6,10 @@ const router = new Router();
 router
   .get('/options/:symbol', async (ctx, next) => {
     try {
+      let optionsChain = await options(ctx.params.symbol);
       ctx.status = 200;
       ctx.type = 'application/json';
-      ctx.body = await options(ctx.params.symbol);
+      ctx.body = JSON.stringify(optionsChain);
     } catch (err) {
       ctx.body = err;
     }
