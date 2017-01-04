@@ -1,6 +1,6 @@
 'use strict';
 import Router from 'koa-router';
-import options from '../api/options';
+import options from '../api/options-chain';
 const router = new Router();
 
 router
