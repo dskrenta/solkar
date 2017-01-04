@@ -10,7 +10,7 @@ export default async function options (symbol) {
     let optionsChain = JSON.parse(jsonBody);
     optionsChain.quoteSnapshot = await getQuoteInfo(symbol);
     optionsChain.earningsSnapshot = await earningsSnapshot(symbol);
-    return JSON.stringify(optionsChain);
+    return optionsChain;
   } catch (err) {
     console.log(err);
   }
