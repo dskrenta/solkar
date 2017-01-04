@@ -1,5 +1,5 @@
 'use strict';
-import loadDOM from './scrape';
+import loadDOM from '../scraper/scrape';
 
 export default async function earnigsSnapshot (symbol) {
   try {

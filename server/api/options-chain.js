@@ -1,7 +1,7 @@
 'use strict';
 import request from 'request';
 import yahooFinance from 'yahoo-finance';
-import earningsSnapshot from '../scraper/earnings-snapshot';
+import earningsSnapshot from '../lib/earnings-snapshot';
 import greeks from '../lib/greeks';
 
 export default async function options (symbol) {

@@ -3,7 +3,7 @@ import request from 'request';
 import yahooFinance from 'yahoo-finance';
 import blackScholes from '../lib/blackScholes';
 import riskFreeInterest from '../lib/risk-free-interest';
-import earningsSnapshot from '../scraper/earnings-snapshot';
+import earningsSnapshot from '../lib/earnings-snapshot';
 
 export default async function options (symbol) {
   try {
