@@ -2,12 +2,11 @@
 import request from 'request';
 import yahooFinance from 'yahoo-finance';
 import earningsSnapshot from '../lib/earnings-snapshot';
-import greeks from '../lib/greeks';
 
 export default async function options (symbol) {
   try {
-    let jsonBody = await getOptionsChain(symbol);
-    let optionsChain = JSON.parse(jsonBody);
+    const jsonBody = await getOptionsChain(symbol);
+    const optionsChain = JSON.parse(jsonBody);
     optionsChain.quoteSnapshot = await getQuoteInfo(symbol);
     optionsChain.earningsSnapshot = await earningsSnapshot(symbol);
     return optionsChain;
