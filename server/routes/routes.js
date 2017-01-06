@@ -4,9 +4,9 @@ import options from '../api/options-chain';
 const router = new Router();
 
 router
-  .get('/options/:symbol', async (ctx, next) => {
+  .get('/options/:symbol/:expiration?', async (ctx, next) => {
     try {
-      let optionsChain = await options(ctx.params.symbol);
+      let optionsChain = await options(ctx.params.symbol, ctx.params.expiration);
       ctx.status = 200;
       ctx.type = 'application/json';
       ctx.body = JSON.stringify(optionsChain);

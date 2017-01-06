@@ -3,9 +3,9 @@ import request from 'request';
 import yahooFinance from 'yahoo-finance';
 import earningsSnapshot from '../lib/earnings-snapshot';
 
-export default async function options (symbol) {
+export default async function options (symbol, expiration = null) {
   try {
-    const jsonBody = await getOptionsChain(symbol);
+    const jsonBody = await getOptionsChain(symbol, expiration);
     const optionsChain = JSON.parse(jsonBody);
     optionsChain.quoteSnapshot = await getQuoteInfo(symbol);
     optionsChain.earningsSnapshot = await earningsSnapshot(symbol);
@@ -15,9 +15,11 @@ export default async function options (symbol) {
   }
 }
 
-function getOptionsChain (symbol) {
+function getOptionsChain (symbol, expiration) {
   return new Promise((resolve, reject) => {
-     request(`https:\/\/query1.finance.yahoo.com/v7/finance/options/${symbol}`, (error, response, body) => {
+    let url = `https:\/\/query2.finance.yahoo.com/v7/finance/options/${symbol}`;
+    if (expiration) url += `?date=${expiration}`;
+     request(url, (error, response, body) => {
        if (error) {
          reject(error);
        } else {

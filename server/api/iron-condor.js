@@ -1,9 +1,9 @@
 'use strict';
 import options from './options-chain';
 
-export default async function ironCondor (symbol) {
+export default async function ironCondor (symbol, expiration = null) {
   try {
-    const optionChain = await options(symbol);
+    const optionChain = await options(symbol, expiration);
     const shortCalls = optionChain.optionChain.result[0].options[0].calls.filter(call => !call.inTheMoney);
     const shortPuts = optionChain.optionChain.result[0].options[0].puts.filter(put => !put.inTheMoney).reverse();
     const ironCondors = [];
