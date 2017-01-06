@@ -35,7 +35,9 @@ export default async function ironCondor (symbol, expiration = null) {
           riskRewardRatio: riskRewardRatio
         };
 
-        ironCondors.push(ironCondor);
+        if (maxLoss >= 0 && maxProfit >= 0) {
+          ironCondors.push(ironCondor);
+        }
       }
     }
 
