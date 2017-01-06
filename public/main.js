@@ -29,6 +29,20 @@ const globalMixin = {
     }
     xhr.open("GET", url, true);
     xhr.send(null);
+  },
+  requestPromise: (url) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          resolve(xhr.responseText);
+        } else {
+          reject();
+        }
+      }
+      xhr.open('GET', url, true);
+      xhr.send(null);
+    });
   }
 };
 
