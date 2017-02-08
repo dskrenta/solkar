@@ -4,6 +4,8 @@ from talib.abstract import *
 from sklearn import svm
 # import matplotlib.pyplot as plt
 
+np.set_printoptions(threshold=np.inf)
+
 def get_data(file_name):
     data_file = open(file_name, encoding='utf-8')
     data = json.loads(data_file.read())
@@ -45,7 +47,10 @@ def add_indicators(inputs):
     natr = NATR(inputs, timeperiod=14)
     trange = TRANGE(inputs)
 
-    return np.column_stack([sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange])
+    # a = np.column_stack((sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange))
+    a = np.column_stack((sma5, sma10, ema5, ema10, atr))
+
+    return a
 
 def create_data(file_name):
     data = get_data(file_name)
@@ -61,30 +66,21 @@ def create_data(file_name):
 
     return {'x': x, 'y': y}
 
-'''
-data = get_data('aapl-2015.json')
-inputs = format_data(data)
+def train_model(training_data):
+    clf = svm.SVR()
+    clf.fit(training_data['x'], training_data['y'])
+    return clf
 
-x = add_indicators(inputs)
-y = inputs['close']
-
-x = x[~np.isnan(x).any(axis=1)]
-
-rows_difference = y.shape[0] - x.shape[0]
-y = y[rows_difference:]
-
-clf = svm.SVR()
-clf.fit(x, y)
-'''
+def predict_data(clf, test_data):
+    print(test_data['x'][0])
+    y = clf.predict(test_data['x'][0])
+    print(y, test_data['y'][0])
 
 training_data = create_data('aapl-2015.json')
 test_data = create_data('aapl-2016.json')
 
-print(training_data)
-print(test_data)
+# print(training_data['x'][:1], '\n', test_data['x'][:1])
+# print(training_data['x'])
 
-'''
-print(x)
-print('\n')
-print(y)
-'''
+clf = train_model(training_data)
+predict_data(clf, training_data)
