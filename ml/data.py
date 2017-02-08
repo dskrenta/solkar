@@ -49,7 +49,7 @@ def add_indicators(inputs):
     trange = TRANGE(inputs)
 
     # a = np.column_stack((sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange))
-    a = np.column_stack((sma5, ema5, mfi, adx, ultosc, atr, slowk, slowd))
+    a = np.column_stack((sma5, ema5, mfi, adx, ultosc, atr, slowk, slowd, atr, willr, macd))
 
     return a
 
