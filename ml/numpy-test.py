@@ -10,4 +10,6 @@ c = np.array([4, 5, 6])
 d = np.array([7, 8, 9])
 
 e = np.column_stack(([b, c, d]))
+# print(e)
 print(e)
+print(e.shape[0])

@@ -50,13 +50,17 @@ def add_indicators(inputs):
 data = get_data('aapl-2015.json')
 inputs = format_data(data)
 
-X = add_indicators(inputs)
+x = add_indicators(inputs)
 y = inputs['close']
 
-X = X[~np.isnan(X).any(axis=1)]
+x = x[~np.isnan(x).any(axis=1)]
+
+rows_difference = y.shape[0] - x.shape[0]
+y = y[rows_difference:]
 
 # clf = svm.SVR()
 # clf.fit(X, y)
 
-print(X)
+print(x)
+print('\n')
 print(y)
