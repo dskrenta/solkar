@@ -49,7 +49,9 @@ def add_indicators(inputs):
     trange = TRANGE(inputs)
 
     # a = np.column_stack((sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange))
-    a = np.column_stack((sma5, ema5, mfi, adx, ultosc, atr, slowk, slowd, atr, willr, macd))
+    a = np.column_stack((sma10, ema10, sma5, ema5, mfi, adx, ultosc, atr, slowk, slowd, atr, trange))
+
+    # print(a, '\n')
 
     return a
 
@@ -65,6 +67,9 @@ def create_data(file_name):
     rows_difference = y.shape[0] - x.shape[0]
     y = y[rows_difference:]
 
+    x = x[5:]
+    y = y[:-5]
+
     return {'x': x, 'y': y}
 
 def train_model(training_data):
@@ -76,14 +81,13 @@ def predict_data(clf, test_data):
     y = clf.predict(test_data['x'])
     return y
 
-training_data = create_data('aapl-2015.json')
+training_data = create_data('aapl-2010-2014.json')
 test_data = create_data('aapl-2016.json')
-
-# print(training_data['x'][:1], '\n', test_data['x'][:1])
-# print(training_data['x'])
 
 clf = train_model(training_data)
 y_predicted = predict_data(clf, test_data)
-# print(clf.score(test_data['y'], y_predicted))
+
+print(y_predicted, '\n', test_data['y'])
 
 print(r2_score(test_data['y'], y_predicted))
+print(clf.score(test_data['x'], test_data['y']))
