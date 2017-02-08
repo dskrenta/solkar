@@ -61,6 +61,7 @@ def create_data(file_name):
     y = inputs['close']
 
     x = x[~np.isnan(x).any(axis=1)]
+    x = x[1:]
 
     rows_difference = y.shape[0] - x.shape[0]
     y = y[rows_difference:]
