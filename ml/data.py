@@ -47,6 +47,21 @@ def add_indicators(inputs):
 
     return np.column_stack([sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange])
 
+def create_data(file_name):
+    data = get_data(file_name)
+    inputs = format_data(data)
+
+    x = add_indicators(inputs)
+    y = inputs['close']
+
+    x = x[~np.isnan(x).any(axis=1)]
+
+    rows_difference = y.shape[0] - x.shape[0]
+    y = y[rows_difference:]
+
+    return {'x': x, 'y': y}
+
+'''
 data = get_data('aapl-2015.json')
 inputs = format_data(data)
 
@@ -58,9 +73,18 @@ x = x[~np.isnan(x).any(axis=1)]
 rows_difference = y.shape[0] - x.shape[0]
 y = y[rows_difference:]
 
-# clf = svm.SVR()
-# clf.fit(X, y)
+clf = svm.SVR()
+clf.fit(x, y)
+'''
 
+training_data = create_data('aapl-2015.json')
+test_data = create_data('aapl-2016.json')
+
+print(training_data)
+print(test_data)
+
+'''
 print(x)
 print('\n')
 print(y)
+'''
