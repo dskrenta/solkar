@@ -9,7 +9,7 @@ function getHistoricalData (symbol, startDate, endDate) {
   });
 }
 
-getHistoricalData('aapl', '2014-1-1', '2014-12-31')
+getHistoricalData('aapl', '2010-1-1', '2014-12-31')
   .then((result) => {
     // console.log(JSON.stringify(result, null, '\t'));
     console.log(JSON.stringify(result));
