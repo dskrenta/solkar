@@ -61,10 +61,12 @@ def create_data(file_name):
     y = inputs['close']
 
     x = x[~np.isnan(x).any(axis=1)]
-    x = x[1:]
 
     rows_difference = y.shape[0] - x.shape[0]
     y = y[rows_difference:]
+
+    x = x[1:]
+    y = y[:-1]
 
     return {'x': x, 'y': y}
 
@@ -80,11 +82,10 @@ def predict_data(clf, test_data):
 training_data = create_data('aapl-2015.json')
 test_data = create_data('aapl-2016.json')
 
-# print(training_data['x'][:1], '\n', test_data['x'][:1])
-# print(training_data['x'])
-
 clf = train_model(training_data)
 y_predicted = predict_data(clf, test_data)
-# print(clf.score(test_data['y'], y_predicted))
+
+print(y_predicted, '\n', test_data['y'])
 
 print(r2_score(test_data['y'], y_predicted))
+print(clf.score(test_data['x'], test_data['y']))
