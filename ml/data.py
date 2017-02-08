@@ -1,6 +1,7 @@
 import json
 import numpy as np
 from talib.abstract import *
+from sklearn import svm
 # import matplotlib.pyplot as plt
 
 def get_data(file_name):
@@ -44,14 +45,18 @@ def add_indicators(inputs):
     natr = NATR(inputs, timeperiod=14)
     trange = TRANGE(inputs)
 
-    return np.column_stack([sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown,
-    aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange])
+    return np.column_stack([sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange])
 
-data = get_data('aapl-historical-2000-2014.json')
+data = get_data('aapl-2015.json')
 inputs = format_data(data)
 
 X = add_indicators(inputs)
-Y = inputs['close']
+y = inputs['close']
+
+X = X[~np.isnan(X).any(axis=1)]
+
+# clf = svm.SVR()
+# clf.fit(X, y)
 
 print(X)
-print(Y)
+print(y)
