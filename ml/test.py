@@ -33,4 +33,5 @@ upper, middle, lower = BBANDS(inputs, 20, 2, 2)
 slowk, slowd = STOCH(inputs, 5, 3, 0, 3, 0) # uses high, low, close by default
 slowk, slowd = STOCH(inputs, 5, 3, 0, 3, 0, prices=['high', 'low', 'open'])
 
-print(integer, integer2)
+# print(integer, integer2)
+print(inputs['open'])
