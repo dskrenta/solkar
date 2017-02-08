@@ -1,8 +1,11 @@
 import json
 import numpy as np
 from talib.abstract import *
-from sklearn import svm
+from sklearn.svm import SVR
+from sklearn.metrics import r2_score
 # import matplotlib.pyplot as plt
+
+np.set_printoptions(threshold=np.inf)
 
 def get_data(file_name):
     data_file = open(file_name, encoding='utf-8')
@@ -45,7 +48,10 @@ def add_indicators(inputs):
     natr = NATR(inputs, timeperiod=14)
     trange = TRANGE(inputs)
 
-    return np.column_stack([sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange])
+    # a = np.column_stack((sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange))
+    a = np.column_stack((sma5, ema5, mfi, adx, ultosc, atr, slowk, slowd, atr, willr, macd))
+
+    return a
 
 def create_data(file_name):
     data = get_data(file_name)
@@ -61,30 +67,23 @@ def create_data(file_name):
 
     return {'x': x, 'y': y}
 
-'''
-data = get_data('aapl-2015.json')
-inputs = format_data(data)
+def train_model(training_data):
+    clf = SVR(C=1.0, epsilon=0.2, kernel='linear')
+    clf.fit(training_data['x'], training_data['y'])
+    return clf
 
-x = add_indicators(inputs)
-y = inputs['close']
-
-x = x[~np.isnan(x).any(axis=1)]
-
-rows_difference = y.shape[0] - x.shape[0]
-y = y[rows_difference:]
-
-clf = svm.SVR()
-clf.fit(x, y)
-'''
+def predict_data(clf, test_data):
+    y = clf.predict(test_data['x'])
+    return y
 
 training_data = create_data('aapl-2015.json')
 test_data = create_data('aapl-2016.json')
 
-print(training_data)
-print(test_data)
+# print(training_data['x'][:1], '\n', test_data['x'][:1])
+# print(training_data['x'])
 
-'''
-print(x)
-print('\n')
-print(y)
-'''
+clf = train_model(training_data)
+y_predicted = predict_data(clf, test_data)
+# print(clf.score(test_data['y'], y_predicted))
+
+print(r2_score(test_data['y'], y_predicted))
