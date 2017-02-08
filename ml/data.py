@@ -1,7 +1,8 @@
 import json
 import numpy as np
 from talib.abstract import *
-from sklearn import svm
+from sklearn.svm import SVR
+from sklearn.metrics import r2_score
 # import matplotlib.pyplot as plt
 
 np.set_printoptions(threshold=np.inf)
@@ -48,7 +49,7 @@ def add_indicators(inputs):
     trange = TRANGE(inputs)
 
     # a = np.column_stack((sma5, sma10, ema5, ema10, rsi, mfi, adx, willr, ultosc, aroondown, aroonup, aroonosc, cmo, macd, macdsignal, macdhist, slowk, slowd, obv, atr, natr, trange))
-    a = np.column_stack((sma5, sma10, ema5, ema10, atr))
+    a = np.column_stack((sma5, ema5, mfi, adx, ultosc, atr, slowk, slowd))
 
     return a
 
@@ -67,14 +68,13 @@ def create_data(file_name):
     return {'x': x, 'y': y}
 
 def train_model(training_data):
-    clf = svm.SVR()
+    clf = SVR(C=1.0, epsilon=0.2, kernel='linear')
     clf.fit(training_data['x'], training_data['y'])
     return clf
 
 def predict_data(clf, test_data):
-    print(test_data['x'][0])
-    y = clf.predict(test_data['x'][0])
-    print(y, test_data['y'][0])
+    y = clf.predict(test_data['x'])
+    return y
 
 training_data = create_data('aapl-2015.json')
 test_data = create_data('aapl-2016.json')
@@ -83,4 +83,7 @@ test_data = create_data('aapl-2016.json')
 # print(training_data['x'])
 
 clf = train_model(training_data)
-predict_data(clf, training_data)
+y_predicted = predict_data(clf, test_data)
+# print(clf.score(test_data['y'], y_predicted))
+
+print(r2_score(test_data['y'], y_predicted))
