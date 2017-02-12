@@ -11,8 +11,8 @@ function getHistoricalData (symbol, startDate, endDate) {
 
 getHistoricalData('aapl', '2015-1-1', '2015-12-31')
   .then((result) => {
-    // console.log(JSON.stringify(result, null, '\t'));
-    console.log(JSON.stringify(result));
+    console.log(JSON.stringify(result, null, '\t'));
+    // console.log(JSON.stringify(result));
   })
   .catch((err) => {
     console.log(err);
