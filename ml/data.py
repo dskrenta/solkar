@@ -67,8 +67,11 @@ def create_data(file_name):
     rows_difference = y.shape[0] - x.shape[0]
     y = y[rows_difference:]
 
-    x = x[5:]
-    y = y[:-5]
+    # x = x[5:]
+    # y = y[:-5]
+
+    x = x[:-1]
+    y = y[1:]
 
     return {'x': x, 'y': y}
 
