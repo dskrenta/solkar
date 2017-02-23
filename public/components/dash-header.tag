@@ -18,6 +18,7 @@
         <ul class="nav navbar-nav">
           <li><a href="#/earnings">Earnings</a></li>
           <li><a href="#/article-table">article</a></li>
+          <li><a href="#/interface">Interface</a></li>
             <dropdown>
               <li>Test1</li>
               <li>Test2</li>
