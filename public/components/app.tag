@@ -1,9 +1,11 @@
 <app>
+
   <div id="view"></div>
 
   <script>
-    //const defaultTag = 'earnings';
-    const defaultTag = 'tracker';
+    // const defaultTag = 'earnings';
+    // const defaultTag = 'tracker';
+    const defaultTag = 'interface';
     riot.mount('dash-header');
     riot.route((page, option) => {
       if (!page) {

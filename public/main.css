@@ -1,3 +1,8 @@
+
+.flexParent {
+  display: flex;
+}
+
 bmo i:first-child {
   color: #FFD54F;
 }
@@ -6,4 +11,102 @@ amc i:first-child {
 }
 tns i:first-child {
   color: #ff5252;
+}
+.container980 {
+  width: 95%;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.securityPage {
+  display: flex;
+  flex-flow: row wrap-reverse;
+}
+.securityInfo {
+  order: 1;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.securityInfo div {
+  color: #2c3e50;
+
+}
+.strategyList {
+  order: 2;
+  display: flex;
+  flex-flow: row nowrap;
+}
+.strategyList div {
+
+}
+
+.securityCont {
+  display: flex;
+  flex-flow: row wrap;
+}
+.securityCol1 {
+  order: 1;
+  display: flex;
+  flex-flow: column;
+  flex: 3 1 30%;
+  background: black;
+  height: 200px;
+}
+.securityCol2 {
+  order: 2;
+  display: flex;
+  flex: 4 1 30%;
+  background: gray;
+  height: 200px;
+}
+.securityInfo {
+  display: flex;
+  width: 100%;
+}
+
+
+
+.level1, .level1:focus {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.level2, .level2:focus, .level1h:hover {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.level3, .level3:focus, .level2h:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+.level4, .level4:focus, .level3h:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.level5, .level5:focus, .level4h:hover {
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+
+.bgBlueGray {
+  background-color: #2c3e50;
+}
+.bgPureBlack {
+  color: black;
+}
+.bgPureWhite {
+  background-color: white;
+}
+.bgG0 {
+  background-color: #fcfcfc;
+}
+.bgG1 {
+  background-color: #F6F6F6;
+}
+.bgG2 {
+  background-color: #F0F0F0;
+}
+.bgG3 {
+  background-color: #e6e6e6;
+}
+.nodec {
+  text-decoration: none;
 }

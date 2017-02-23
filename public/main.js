@@ -18,6 +18,10 @@ import './components/tracker.tag';
 import './components/option-calculator.tag';
 import './components/option.tag';
 import './components/options-chain.tag';
+import './components/interface.tag';
+import './components/navbar.tag';
+import './components/securitySelect.tag';
+import './components/securityPage.tag';
 
 const globalMixin = {
   request: (url, callback) => {
