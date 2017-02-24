@@ -1,5 +1,5 @@
 <options-chain>
-  <div class="container">
+  <div class="container980">
     <h1>Options Chain</h1>
 
     <form class="input-form" onsubmit={ handler }>
