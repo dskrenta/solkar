@@ -25,6 +25,20 @@
   </style>
 
   <script>
+  const self = this;
+
+  function getOptionsChain(symbol) {
+    self.requestPromise(`${window.location.origin}/options/${symbol}`)
+      .then(result => {
+        self.optionsChain = JSON.parse(result);
+        console.log(self.optionsChain);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  riot.mount(getOptionsChain('AAPL'));
 
   </script>
 </securityInfo>
