@@ -4,7 +4,7 @@ from talib.abstract import *
 from sklearn.svm import SVC
 
 # Define constants
-PERIOD = 10
+PERIOD = 1
 OVERLAP_STUDIES = [
     'BBANDS',               # Bollinger Bands
     'DEMA',                 # Double Exponential Moving Average
@@ -122,6 +122,11 @@ def add_indicators(inputs):
     sma10 = SMA(inputs)
     ema5 = EMA(inputs)
     ema10 = EMA(inputs)
+    upperband, middleband, lowerband = BBANDS(inputs)
+    dema = DEMA(inputs)
+    ht_trendline = HT_TRENDLINE(inputs)
+    kama = KAMA(inputs)
+    wma = WMA(inputs)
 
     # Momentum Indicators
     rsi = RSI(inputs, timeperiod=14)
@@ -145,6 +150,28 @@ def add_indicators(inputs):
 
     '''
     ta_list = []
+
+    ta_list.append(BBANDS(inputs, timeperiod=14))
+    ta_list.append(DEMA(inputs, timeperiod=14))
+    ta_list.append(EMA(inputs, timeperiod=14))
+    ta_list.append(HT_TRENDLINE(inputs, timeperiod=14))
+    ta_list.append(KAMA(inputs, timeperiod=14))
+    ta_list.append(MA(inputs, timeperiod=14))
+    ta_list.append(MAMA(inputs, timeperiod=14))
+    ta_list.append(MAVP(inputs, timeperiod=14))
+    ta_list.append(MIDPOINT(inputs, timeperiod=14))
+    ta_list.append(MIDPRICE(inputs, timeperiod=14))
+    ta_list.append(SAR(inputs, timeperiod=14))
+    ta_list.append(SAREXT(inputs, timeperiod=14))
+    ta_list.append(SMA(inputs, timeperiod=14))
+    ta_list.append(T3(inputs, timeperiod=14))
+    ta_list.append(TEMA(inputs, timeperiod=14))
+    ta_list.append(TRIMA(inputs, timeperiod=14))
+    ta_list.append(WMA(inputs, timeperiod=14))
+    '''
+
+    '''
+    ta_list = []
     for indicator in OVERLAP_STUDIES:
         func = Function(indicator)
         output = func(inputs)
@@ -153,7 +180,7 @@ def add_indicators(inputs):
     '''
 
     # a = np.column_stack((sma10, ema10, rsi, mfi, adx, atr, natr))
-    a = np.column_stack((ema10, ema10, rsi))
+    a = np.column_stack((ema10, ema10, rsi, upperband, middleband, lowerband, dema, kama, ht_trendline, wma))
     # a = np.column_stack(ta_list)
     return a
 
@@ -195,7 +222,7 @@ def predict_data(clf, test_data):
 
 def main():
     training_data = create_data('aapl-historical-2000-2014.json')
-    test_data = create_data('aapl-2016.json')
+    test_data = create_data('aapl-2010-2014.json')
     clf = train_model(training_data)
     output = predict_data(clf, test_data)
     print('Predicted:')
