@@ -3,8 +3,96 @@ import numpy as np
 from talib.abstract import *
 from sklearn.svm import SVC
 
+# Define constants
 PERIOD = 1
+OVERLAP_STUDIES = [
+    'BBANDS',               # Bollinger Bands
+    'DEMA',                 # Double Exponential Moving Average
+    'EMA',                  # Exponential Moving Average
+    'HT_TRENDLINE',         # Hilbert Transform - Instantaneous Trendline
+    'KAMA',                 # Kaufman Adaptive Moving Average
+    'MA',                   # Moving average
+    'MAMA',                 # MESA Adaptive Moving Average
+    'MAVP',                 # Moving average with variable period
+    'MIDPOINT',             # MidPoint over period
+    'MIDPRICE',             # Midpoint Price over period
+    'SAR',                  # Parabolic SAR
+    'SAREXT',               # Parabolic SAR - Extended
+    'SMA',                  # Simple Moving Average
+    'T3',                   # Triple Exponential Moving Average (T3)
+    'TEMA',                 # Triple Exponential Moving Average
+    'TRIMA',                # Triangular Moving Average
+    'WMA',                  # Weighted Moving Average
+]
+MOMENTUM_INDICATORS = [
+    'ADX',                  # Average Directional Movement Index
+    'ADXR',                 # Average Directional Movement Index Rating
+    'APO',                  # Absolute Price Oscillator
+    'AROON',                # Aroon
+    'AROONOSC',             # Aroon Oscillator
+    'BOP',                  # Balance Of Power
+    'CCI',                  # Commodity Channel Index
+    'CMO',                  # Chande Momentum Oscillator
+    'DX',                   # Directional Movement Index
+    'MACD',                 # Moving Average Convergence/Divergence
+    'MACDEXT',              # MACD with controllable MA type
+    'MACDFIX',              # Moving Average Convergence/Divergence Fix 12/26
+    'MFI',                  # Money Flow Index
+    'MINUS_DI',             # Minus Directional Indicator
+    'MINUS_DM',             # Minus Directional Movement
+    'MOM',                  # Momentum
+    'PLUS_DI',              # Plus Directional Indicator
+    'PLUS_DM',              # Plus Directional Movement
+    'PPO',                  # Percentage Price Oscillator
+    'ROC',                  # Rate of change : ((price/prevPrice)-1)*100
+    'ROCP',                 # Rate of change Percentage: (price-prevPrice)/prevPrice
+    'ROCR',                 # Rate of change ratio: (price/prevPrice)
+    'ROCR100',              # Rate of change ratio 100 scale: (price/prevPrice)*100
+    'RSI',                  # Relative Strength Index
+    'STOCH',                # Stochastic
+    'STOCHF',               # Stochastic Fast
+    'STOCHRSI',             # Stochastic Relative Strength Index
+    'TRIX',                 # 1-day Rate-Of-Change (ROC) of a Triple Smooth EMA
+    'ULTOSC',               # Ultimate Oscillator
+    'WILLR',                # Williams' %R
+]
+VOLUME_INDICATORS = [
+    'AD',                   # Chaikin A/D Line
+    'ADOSC',                # Chaikin A/D Oscillator
+    'OBV',                  # On Balance Volume
+]
+VOLATILITY_INDICATORS = [
+    'ATR',                  # Average True Range
+    'NATR',                 # Normalized Average True Range
+    'TRANGE',               # True Range
+]
+PRICE_TRANSFORM = [
+    'AVGPRICE',             # Average Price
+    'MEDPRICE',             # Median Price
+    'TYPPRICE',             # Typical Price
+    'WCLPRICE',             # Weighted Close Price
+    'HT_DCPERIOD',          # Hilbert Transform - Dominant Cycle Period
+    'HT_DCPHASE',           # Hilbert Transform - Dominant Cycle Phase
+    'HT_PHASOR',            # Hilbert Transform - Phasor Components
+    'HT_SINE',              # Hilbert Transform - SineWave
+    'HT_TRENDMODE',         # Hilbert Transform - Trend vs Cycle Mode
+]
+STATISTIC_FUNCTIONS = [
+    'BETA',                 # Beta
+    'CORREL',               # Pearson's Correlation Coefficient (r)
+    'LINEARREG',            # Linear Regression
+    'LINEARREG_ANGLE',      # Linear Regression Angle
+    'LINEARREG_INTERCEPT',  # Linear Regression Intercept
+    'LINEARREG_SLOPE',      # Linear Regression Slope
+    'STDDEV',               # Standard Deviation
+    'TSF',                  # Time Series Forecast
+    'VAR',                  # Variance
+]
 
+# Talib timeperiod configuration
+# SMA.parameters = {'timeperiod': 15}
+
+# Numpy print configuration
 np.set_printoptions(threshold=np.inf)
 
 def get_data(file_name):
@@ -12,24 +100,33 @@ def get_data(file_name):
     data = json.loads(data_file.read())
     return data
 
-def format_data(data, type):
-    return list(map(lambda d: d[type], data))
+def format_data(data, type, adj_ratio):
+    if type != 'volume':
+        return list(map(lambda d: d[type] * adj_ratio, data))
+    else:
+        return list(map(lambda d: d[type] / adj_ratio, data))
 
 def generate_inputs(data):
+    adj_ratio = int(data[0]['adjClose']) / int(data[0]['close'])
     return {
-        'open': np.array(format_data(data, 'open'), dtype='f8'),
-        'high': np.array(format_data(data, 'high'), dtype='f8'),
-        'low': np.array(format_data(data, 'low'), dtype='f8'),
-        'close': np.array(format_data(data, 'adjClose'), dtype='f8'),
-        'volume': np.array(format_data(data, 'volume'), dtype='f8')
+        'open': np.array(format_data(data, 'open', adj_ratio), dtype='f8'),
+        'high': np.array(format_data(data, 'high', adj_ratio), dtype='f8'),
+        'low': np.array(format_data(data, 'low', adj_ratio), dtype='f8'),
+        'close': np.array(format_data(data, 'adjClose', adj_ratio), dtype='f8'),
+        'volume': np.array(format_data(data, 'volume', adj_ratio), dtype='f8')
     }
 
 def add_indicators(inputs):
     # Overlap Studies
-    sma5 = SMA(inputs, timeperiod=5)
-    sma10 = SMA(inputs, timeperiod=10)
-    ema5 = EMA(inputs, timeperiod=5)
-    ema10 = EMA(inputs, timeperiod=10)
+    sma5 = SMA(inputs)
+    sma10 = SMA(inputs)
+    ema5 = EMA(inputs)
+    ema10 = EMA(inputs)
+    upperband, middleband, lowerband = BBANDS(inputs)
+    dema = DEMA(inputs)
+    ht_trendline = HT_TRENDLINE(inputs)
+    kama = KAMA(inputs)
+    wma = WMA(inputs)
 
     # Momentum Indicators
     rsi = RSI(inputs, timeperiod=14)
@@ -51,13 +148,45 @@ def add_indicators(inputs):
     natr = NATR(inputs, timeperiod=14)
     trange = TRANGE(inputs)
 
-    a = np.column_stack((sma10, ema10, rsi, mfi, adx, atr, natr))
+    '''
+    ta_list = []
+
+    ta_list.append(BBANDS(inputs, timeperiod=14))
+    ta_list.append(DEMA(inputs, timeperiod=14))
+    ta_list.append(EMA(inputs, timeperiod=14))
+    ta_list.append(HT_TRENDLINE(inputs, timeperiod=14))
+    ta_list.append(KAMA(inputs, timeperiod=14))
+    ta_list.append(MA(inputs, timeperiod=14))
+    ta_list.append(MAMA(inputs, timeperiod=14))
+    ta_list.append(MAVP(inputs, timeperiod=14))
+    ta_list.append(MIDPOINT(inputs, timeperiod=14))
+    ta_list.append(MIDPRICE(inputs, timeperiod=14))
+    ta_list.append(SAR(inputs, timeperiod=14))
+    ta_list.append(SAREXT(inputs, timeperiod=14))
+    ta_list.append(SMA(inputs, timeperiod=14))
+    ta_list.append(T3(inputs, timeperiod=14))
+    ta_list.append(TEMA(inputs, timeperiod=14))
+    ta_list.append(TRIMA(inputs, timeperiod=14))
+    ta_list.append(WMA(inputs, timeperiod=14))
+    '''
+
+    '''
+    ta_list = []
+    for indicator in OVERLAP_STUDIES:
+        func = Function(indicator)
+        output = func(inputs)
+        ta_list.append(output)
+        # print(func.parameters)
+    '''
+
+    # a = np.column_stack((sma10, ema10, rsi, mfi, adx, atr, natr))
+    a = np.column_stack((ema10, ema10, rsi, upperband, middleband, lowerband, dema, kama, ht_trendline, wma))
+    # a = np.column_stack(ta_list)
     return a
 
 def add_labels(closes, period=1):
     labels = []
     for i in range(len(closes)):
-        #if i != 0:
         if i-period >= 0:
             label = closes[i] >= closes[i-period]
             if label:
