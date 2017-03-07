@@ -1,5 +1,5 @@
 <main>
-  <h1>Hello, world!</h1>
+  <h1 class="hello">Hello, world!</h1>
   <script>
     const self = this;
   </script>
