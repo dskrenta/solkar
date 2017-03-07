@@ -1,6 +1,8 @@
 <main>
-  <h1 class="hello">Hello, world!</h1>
-  <script>
-    const self = this;
-  </script>
+  <h1>Main</h1>
+  <header></header>
+  <sidebar></sidebar>
+  <chart></chart>
+  <data></data>
+  <pred></pred>
 </main>
