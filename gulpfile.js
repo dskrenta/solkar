@@ -6,6 +6,7 @@ const babel = require('gulp-babel');
 const batch = require('gulp-batch');
 const del = require('del');
 const concat = require('gulp-concat');
+const less = require('gulp-less');
 const electron = require('electron-connect').server.create({
   path: './build'
 });
@@ -25,7 +26,7 @@ gulp.task('browser-restart', () => {
 const paths = {
   components: 'app/components/**/*.tag',
   copy: 'app/index.*(html|js)',
-  style: 'app/style/**/*.css',
+  style: 'app/style/**/*.less',
   scripts: 'app/app.js',
   lib: 'app/lib/**/*.js',
   build: './build/**/*.*'
@@ -54,7 +55,9 @@ gulp.task('copy', ['clean'], copyTask);
 gulp.task('copy-watch', copyTask);
 
 const styleTask = () => {
-  return gulp.src('app/style/*.css')
+  return gulp.src('app/style/**/*.less')
+    .pipe(less())
+    .pipe(concat('index.css'))
     .pipe(gulp.dest('./build/style'));
 };
 
