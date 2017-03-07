@@ -5,6 +5,7 @@ const watch = require('gulp-watch');
 const babel = require('gulp-babel');
 const batch = require('gulp-batch');
 const del = require('del');
+const concat = require('gulp-concat');
 const electron = require('electron-connect').server.create({
   path: './build'
 });
@@ -37,6 +38,7 @@ gulp.task('clean', () => {
 const riotTask = () => {
   return gulp.src('app/components/**/*.tag')
     .pipe(riot())
+    .pipe(concat('components.js'))
     .pipe(gulp.dest('./build/components'));
 };
 
