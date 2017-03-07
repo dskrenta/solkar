@@ -1,10 +1,6 @@
-<interface>
+<interface class="bgG1">
 
-  <navbar></navbar>
-
-  <!-- Need to make this appear lower on the page. ->
-  <securityPage></securityPage> -->
-  
+  <securityInfo></securityInfo>
 
   <script>
   const self = this;

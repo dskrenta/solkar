@@ -22,6 +22,8 @@ import './components/interface.tag';
 import './components/navbar.tag';
 import './components/securitySelect.tag';
 import './components/securityPage.tag';
+import './components/securityInfo.tag';
+import './components/navbarFiller.tag';
 
 const globalMixin = {
   request: (url, callback) => {
