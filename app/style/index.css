@@ -3,6 +3,8 @@
 */
 
 
+/* ----- Flexbox Parent Styles ----- */
+
 .container {
   display: flex;
 }
@@ -69,6 +71,10 @@
 .itemsStretch {
   align-items: stretch;
 }
+
+/* ----- Flexbox Child Styles ----- */
+
+
 
 /* Align Self */
 
