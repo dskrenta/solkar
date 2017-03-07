@@ -1,12 +1,10 @@
-# electron-python-build
-Application boilerplate electron frontend with python functions
-
+# Solkar
 
 ## Install
 
 ```
-$ git clone https://github.com/dskrenta/electron-python-build
-$ cd electron-python-build && npm install
+$ git clone https://github.com/dskrenta/solkar
+$ cd solkar && npm install
 ```
 
 ## Run
