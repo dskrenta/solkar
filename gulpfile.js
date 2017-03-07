@@ -77,9 +77,8 @@ gulp.task('scripts-watch', scriptsTask);
 
 const utilsTask = () => {
   return gulp.src(paths.lib)
-    .pipe(babel({
-      presets: ['es2015']
-    }))
+    .pipe(babel())
+    .pipe(concat('lib.js'))
     .pipe(gulp.dest('./build/lib'));
 };
 

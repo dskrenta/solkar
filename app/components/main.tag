@@ -10,4 +10,8 @@
       <pred></pred>
     </div>
   </div>
+
+  <script>
+    lib.hello();
+  </script>
 </main>
