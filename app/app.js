@@ -7,6 +7,4 @@ import './components/main.js';
 
 riot.mount('main');
 
-console.log('Stuff is amazing');
-
 // console.log(normalizeUrl('octograde.com'));
