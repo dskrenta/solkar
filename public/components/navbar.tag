@@ -1,7 +1,7 @@
 <navbar>
 
-  <section class="topFixed bgLGray0 level1">
-    <section class="container container980">
+  <section class="topFixed bgWhite level1">
+    <section class="container container1024">
       <section class="navbar">
         <section class="navbar-section">
             <a href="#" class="nodec navbar-brand">

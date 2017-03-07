@@ -1,6 +1,6 @@
 <securityPage>
 
-  <div class="securityPage container980">
+  <div class="securityPage container1024">
     <div class="securityCol1">
       <div class="chart"></div>
       <div class="securityInfo">
