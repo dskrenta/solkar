@@ -5,4 +5,8 @@
   <chart></chart>
   <data></data>
   <pred></pred>
+
+  <script>
+    lib.hello();
+  </script>
 </main>
