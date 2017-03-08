@@ -1,3 +1,4 @@
 <chart>
-  <h1>Chart</h1>
+  <div>
+  </div>
 </chart>
