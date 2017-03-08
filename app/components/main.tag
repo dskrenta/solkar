@@ -12,4 +12,8 @@
       </div>
     </div>
   </div>
+
+  <script>
+    lib.hello();
+  </script>
 </main>
