@@ -1,5 +1,5 @@
 <main>
-  <div class="container cloumn wrap">
+  <div class="container column">
     <div class="container">
       <header></header>
     </div>
