@@ -1,13 +1,15 @@
 <main>
-  <div class="container cloumn nowrap">
+  <div class="container cloumn wrap">
     <div class="container">
       <header></header>
     </div>
-    <div class="container row">
+    <div class="container row nowrap between fullWidth">
       <sidebar></sidebar>
       <chart></chart>
-      <data></data>
-      <pred></pred>
+      <div class="container column nowrap rightMost">
+        <data></data>
+        <pred></pred>
+      </div>
     </div>
   </div>
 
