@@ -14,6 +14,5 @@
   </div>
 
   <script>
-    lib.hello();
   </script>
 </main>
