@@ -1,15 +1,17 @@
 <main>
-  <div class="container column">
-    <div class="container">
+
+  <div class="container row">
+    <div class="container column one">
       <header></header>
-    </div>
-    <div class="container row nowrap between fullWidth">
       <sidebar></sidebar>
+      <clock></clock>
+    </div>
+    <div class="container column two">
+      <data></data>
       <chart></chart>
-      <div class="container column nowrap rightMost">
-        <data></data>
-        <pred></pred>
-      </div>
+    </div>
+    <div class="container column three">
+      <pred></pred>
     </div>
   </div>
 
