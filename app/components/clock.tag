@@ -23,7 +23,8 @@
     }
 
     function formatHour (hour) {
-      return hour > 12 ? (hour - 12) : hour;
+      console.log(hour);
+      return hour > 12 ? (hour - 12) : hour > 0 ? hour : 12;
     }
 
     function ampm (hour) {
