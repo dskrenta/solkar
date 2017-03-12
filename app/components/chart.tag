@@ -11,4 +11,5 @@
       self.symbol = symbol;
       self.update();
     });
+  </script>
 </chart>
