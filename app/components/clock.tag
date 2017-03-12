@@ -11,13 +11,23 @@
 
     function getTime () {
       const dateTime = new Date();
-      self.dateTime = `${dateTime.toLocaleDateString()} ${dateTime.getHours()}:${formatTime(dateTime.getMinutes())}:${formatTime(dateTime.getSeconds())} PM`;
+      self.dateTime = `${dateTime.toLocaleDateString()}
+      ${formatHour(dateTime.getHours())}:${format60(dateTime.getMinutes())}:${format60(dateTime.getSeconds())}
+      ${ampm(dateTime.getHours())}`;
       self.update();
       setTimeout(getTime, 500);
     }
 
-    function formatTime(value) {
+    function format60 (value) {
       return value < 10 ? `0${value}` : value;
+    }
+
+    function formatHour (hour) {
+      return hour > 12 ? (hour - 12) : hour;
+    }
+
+    function ampm (hour) {
+      return hour >= 12 ? 'PM' : 'AM';
     }
 
   </script>
