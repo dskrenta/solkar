@@ -7,9 +7,25 @@
     const self = this;
     this.symbol = 'SPY';
 
-    observe.on('quoteUpdate', (symbol) => {
-      self.symbol = symbol;
+    this.on('mount', () => {
+      getMarketData();
       self.update();
     });
+
+    observe.on('quoteUpdate', symbol => {
+      self.symbol = symbol;
+      getMarketData();
+      self.update();
+    });
+
+    function getMarketData () {
+      lib.quoteSnapshot(self.symbol)
+        .then(result => {
+          self.data = result;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   </script>
 </data>

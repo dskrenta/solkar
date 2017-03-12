@@ -34,7 +34,6 @@
     ];
 
     symbolSelect (event) {
-      console.log(event.item.symbol);
       observe.trigger('quoteUpdate', event.item.symbol);
     }
   </script>
