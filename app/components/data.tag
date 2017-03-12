@@ -1,8 +1,15 @@
 <data>
   <div>
+    <h1>{symbol}</h1>
   </div>
 
   <script>
-    console.log(observable);
+    const self = this;
+    this.symbol = 'SPY';
+
+    observe.on('quoteUpdate', (symbol) => {
+      self.symbol = symbol;
+      self.update();
+    });
   </script>
 </data>
