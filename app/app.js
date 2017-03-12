@@ -7,4 +7,6 @@ import request from 'request';
 import cheerio from 'cheerio';
 import yahooFinance from 'yahoo-finance';
 
+const observable = riot.observable();
+
 riot.mount('main');
