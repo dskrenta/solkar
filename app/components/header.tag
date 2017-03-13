@@ -1,6 +1,6 @@
 <header>
   <div>
-    <div class="logo container center itemsCenter">
+    <div class="logo container itemsCenter">
       <p>Sol<span>kar</span></p>
     </div>
   </div>

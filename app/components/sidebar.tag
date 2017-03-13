@@ -1,9 +1,9 @@
 <sidebar>
-  <div>
+  <div class="title">
     <h3>Presets</h3>
   </div>
-  <div>
-    <p each={presets}>{symbol}</p>
+  <div  each={presets} class="item">
+    <p>{symbol}</p>
   </div>
   <script>
     const self = this;
