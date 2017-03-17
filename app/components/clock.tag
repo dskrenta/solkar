@@ -1,4 +1,4 @@
-<clock>
+<clock class="container itemsCenter center">
   <span>{dateTime}</span>
 
   <script>
@@ -8,11 +8,10 @@
     this.on('mount', () => {
       getTime();
     });
-
+    // Removed temporarily from first line of 'self.datTime = ...' ${dateTime.toLocaleDateString()}
     function getTime () {
       const dateTime = new Date();
-      self.dateTime = `${dateTime.toLocaleDateString()}
-      ${formatHour(dateTime.getHours())}:${format60(dateTime.getMinutes())}:${format60(dateTime.getSeconds())}
+      self.dateTime = `${formatHour(dateTime.getHours())}:${format60(dateTime.getMinutes())}:${format60(dateTime.getSeconds())}
       ${ampm(dateTime.getHours())}`;
       self.update();
       setTimeout(getTime, 500);

@@ -1,6 +1,9 @@
 <sidebar>
-  <div>
-    <p each={presets} onclick={symbolSelect}>{symbol}</p>
+  <div class="title">
+    <h3>Presets</h3>
+  </div>
+  <div each={presets} class="item">
+    <p onclick={symbolSelect}>{symbol}</p>
   </div>
   <script>
     const self = this;
