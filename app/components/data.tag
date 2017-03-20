@@ -1,6 +1,8 @@
 <data>
-  <div>
+  <div class="container row itemsStart around">
     <h1>{symbol}</h1>
+    <h1>{data.name}</h1>
+    <h1 class="down">{data.change}</h1>
   </div>
 
   <script>
@@ -22,6 +24,7 @@
       lib.quoteSnapshot(self.symbol)
         .then(result => {
           self.data = result;
+          console.log(self.data);
         })
         .catch(err => {
           console.log(err);
