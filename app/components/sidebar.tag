@@ -2,8 +2,12 @@
   <div class="title">
     <h3>Presets</h3>
   </div>
-  <div each={presets} class="item">
-    <p onclick={symbolSelect}>{symbol}</p>
+  <div each={presets} class="item container column nowrap">
+    <div class="container row itemsCenter nowrap" onclick={symbolSelect}>
+      <p strong>{symbol}</p>
+      <p>{data.lastTradePriceOnly}</p>
+      <p>{data.change}</p>
+    </div>
   </div>
   <script>
     const self = this;

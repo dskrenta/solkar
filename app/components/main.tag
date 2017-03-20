@@ -1,6 +1,6 @@
 <main>
   <div class="container row">
-    <div class="container column one" style="width:200px">
+    <div class="container column one">
       <header></header>
       <sidebar></sidebar>
       <clock></clock>

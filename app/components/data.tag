@@ -1,6 +1,8 @@
 <data>
-  <div>
-    <p>{symbol} | {data.lastTradePriceOnly} | {data.volume} | {data.name}</p>
+  <div class="container row itemsStart around">
+    <h1>{symbol}</h1>
+    <h1>{data.name}</h1>
+    <h1 class="down">{data.change}</h1>
   </div>
 
   <script>
