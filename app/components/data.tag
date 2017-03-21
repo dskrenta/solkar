@@ -14,7 +14,7 @@
       getMarketData();
     });
 
-    observe.on('quoteUpdate', symbol => {
+    observe.on('quote-select', symbol => {
       self.symbol = symbol;
       getMarketData();
     });
