@@ -16,7 +16,7 @@
     </div>
   </div>
   <script>
-    const self = this;
+    self.data;
     this.etfPresets = lib.presets.etfs;
     this.stockPresets = lib.presets.stocks;
 

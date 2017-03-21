@@ -14,6 +14,7 @@
 
   <script>
     const self = this;
+    this.marketData;
 
     observe.on('quote-update:marketData', data => {
       self.marketData = data;
@@ -22,6 +23,11 @@
 
     observe.on('quote-update:earningsData', data => {
       self.earningsData = data;
+      self.update();
+    });
+
+    observe.on('quote-update:realtime', data => {
+      self.marketData.volume = data.volume;
       self.update();
     });
   </script>
