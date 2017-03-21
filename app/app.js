@@ -10,4 +10,10 @@ import './components/components.js';
 
 const observe = riot.observable();
 
+/*
+lib.info('AAPL')
+  .then(result => console.log(result))
+  .catch(err => console.log(err));
+*/
+
 riot.mount('main');

@@ -27,6 +27,7 @@
     "cheerio": "^0.22.0",
     "d3": "^4.7.2",
     "electron-debug": "^1.0.0",
+    "quoth": "^1.0.3",
     "request": "^2.81.0",
     "yahoo-finance": "^0.2.16"
   },
