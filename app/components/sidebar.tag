@@ -3,10 +3,10 @@
     <h3>Presets</h3>
   </div>
   <div each={presets} class="item container column nowrap">
-    <div class="container row itemsCenter nowrap" onclick={symbolSelect}>
+    <div class="container row itemsCenter nowrap between" onclick={symbolSelect}>
       <p strong>{symbol}</p>
-      <p>{data.lastTradePriceOnly}</p>
-      <p>{data.change}</p>
+      <p>0.12</p>
+      <p>823</p>
     </div>
   </div>
   <script>
@@ -20,7 +20,6 @@
       {symbol: 'XLF'},
       {symbol: 'SNAP'},
       {symbol: 'AAPL'},
-      {symbol: 'RUT'},
       {symbol: 'GOOG'},
       {symbol: 'GOOGL'},
       {symbol: 'SDRL'},
