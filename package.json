@@ -29,6 +29,7 @@
     "electron-debug": "^1.0.0",
     "quoth": "^1.0.3",
     "request": "^2.81.0",
+    "socket.io-client": "^1.7.3",
     "yahoo-finance": "^0.2.16"
   },
   "devDependencies": {
