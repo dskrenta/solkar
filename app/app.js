@@ -14,8 +14,6 @@ const observe = riot.observable();
 
 observe.on('quote-select', symbol => {
   lib.getData(symbol);
-    // .then(result => observe.trigger('quote-update', result))
-    // .catch(err => console.log(err));
 });
 
 riot.mount('main');

@@ -8,7 +8,7 @@
     <h3>52 Week Range<br /> {marketData['52WeekRange']}</h3>
   </div>
   <div class="container row itemsStart around">
-    <h3>Dividend<br /> {marketData.dividendPayDate ? data.dividendPayDate : 'N/A'}</h3>
+    <h3>Dividend<br /> {marketData.dividendPayDate ? marketData.dividendPayDate : 'N/A'}</h3>
     <h3>Earnings<br /> {earningsData.date ? earningsData.date : 'N/A'}</h3>
   </div>
 
@@ -23,6 +23,6 @@
     observe.on('quote-update:earningsData', data => {
       self.earningsData = data;
       self.update();
-    })
+    });
   </script>
 </pred>
