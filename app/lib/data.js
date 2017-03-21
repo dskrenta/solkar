@@ -7,9 +7,6 @@ export async function getData (symbol) {
     let marketData = await lib.quoteSnapshot(symbol);
     observe.trigger('quote-update:marketData', marketData);
 
-    let spotData = await lib.spot(symbol);
-    observe.trigger('quote-update:spotData', spotData);
-
     let optionsData = await lib.options(symbol);
     observe.trigger('quote-update:optionsData', optionsData);
 
