@@ -1,16 +1,14 @@
 <pred>
-  <div>
-    <h1>{symbol}</h1>
-    <h1>Data</h1>
-  <h1>Built Trades</h1>
-  </div>
+  <h1>Pred</h1>
 
   <script>
     const self = this;
-    this.symbol = 'SPY';
+    this.data = '';
 
-    observe.on('quote-select', (symbol) => {
-      self.symbol = symbol;
+    observe.on('quote-update', data => {
+      self.data = data.marketData;
+      console.log(data);
       self.update();
     });
+  </script>
 </pred>

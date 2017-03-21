@@ -32,8 +32,8 @@
     }
     */
 
-    observe.on('quote-update', data => {
-      self.data = data.marketData;
+    observe.on('quote-update:marketData', data => {
+      self.data = data;
       console.log(data);
       self.update();
     });

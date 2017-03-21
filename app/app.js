@@ -13,9 +13,9 @@ const socket = require('socket.io-client')('https://ws-api.iextrading.com/1.0/la
 const observe = riot.observable();
 
 observe.on('quote-select', symbol => {
-  lib.getData(symbol)
-    .then(result => observe.trigger('quote-update', result))
-    .catch(err => console.log(err));
+  lib.getData(symbol);
+    // .then(result => observe.trigger('quote-update', result))
+    // .catch(err => console.log(err));
 });
 
 riot.mount('main');
