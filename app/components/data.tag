@@ -1,6 +1,6 @@
 <data>
   <div class="container row itemsStart around">
-    <h1>{symbol}</h1>
+    <h1>{data.symbol}</h1>
     <h1>{data.name}</h1>
     <h1 class="down">{data.change}</h1>
   </div>
@@ -10,6 +10,7 @@
     this.symbol = 'SPY';
     this.data;
 
+    /*
     this.on('mount', () => {
       getMarketData();
     });
@@ -29,5 +30,12 @@
           console.log(err);
         });
     }
+    */
+
+    observe.on('quote-update', data => {
+      self.data = data.marketData;
+      console.log(data);
+      self.update();
+    });
   </script>
 </data>

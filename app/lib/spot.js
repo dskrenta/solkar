@@ -1,6 +1,6 @@
 import quoth from 'quoth';
 
-export function info (symbol) {
+export function spot (symbol) {
   return new Promise((resolve, reject) => {
     quoth.spot(symbol, (err, result) => {
       if (!err) {

@@ -15,5 +15,8 @@
   </div>
 
   <script>
+    this.on('mount', () => {
+      observe.trigger('quote-select', 'SPY');
+    })
   </script>
 </main>
