@@ -1,6 +1,8 @@
 <pred>
   <div>
     <h1>{symbol}</h1>
+    <h1>Data</h1>
+  <h1>Built Trades</h1>
   </div>
 
   <script>

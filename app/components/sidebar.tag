@@ -1,6 +1,6 @@
 <sidebar>
   <div class="title">
-    <h3>ETFs</h3>
+    <h3><strong>ETFs</strong></h3>
   </div>
   <div each={etfPresets} class="item container column nowrap">
     <div class="container row itemsCenter nowrap" onclick={quoteSelect}>
@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="title">
-    <h3>Stocks</h3>
+    <h3><strong>Stocks</strong></h3>
   </div>
   <div each={stockPresets} class="item container column nowrap">
     <div class="container row itemsCenter nowrap" onclick={quoteSelect}>

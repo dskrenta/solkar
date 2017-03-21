@@ -1,6 +1,6 @@
 <chart>
   <div>
-    <h1>{symbol}</h1>
+    <h1>{symbol} Chart</h1>
   </div>
 
   <script>
