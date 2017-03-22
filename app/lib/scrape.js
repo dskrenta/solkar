@@ -1,3 +1,6 @@
+import request from 'request';
+import cheerio from 'cheerio';
+
 export function loadDOM (url) {
   return new Promise((resolve, reject) => {
     request(url, (error, response, body) => {

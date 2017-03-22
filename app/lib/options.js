@@ -1,3 +1,5 @@
+import request from 'request';
+
 export async function options (symbol, expiration = null) {
   try {
     const jsonBody = await getOptionChain(symbol, expiration);
