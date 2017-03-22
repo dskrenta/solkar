@@ -22,7 +22,7 @@
       self.data.bid = `${data.bidPrice} x ${data.bidSize}`;
       self.data.ask = `${data.askPrice} x ${data.askSize}`;
       self.data.lastTradePriceOnly = data.lastSalePrice;
-      self.data.change = parseFloat((self.data.previousClose - data.lastSalePrice).toFixed(4));
+      self.data.change = parseFloat((data.lastSalePrice - self.data.previousClose).toFixed(4));
       self.update();
     });
   </script>
