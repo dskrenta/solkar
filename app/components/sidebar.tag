@@ -5,8 +5,8 @@
   <table>
     <tr>
       <th class="tLeft">Sym</th>
-      <th class="tCenter">Chg</th>
-      <th class="tRight">Last</th>
+      <th class="tCenter">Last</th>
+      <th class="tRight">Chg</th>
     </tr>
     <tr each={etfPresets} class="item" onclick={quoteSelect}>
       <td class="tLeft">{symbol}</td>
@@ -21,8 +21,8 @@
   <table>
     <tr>
       <th class="tLeft">Sym</th>
-      <th class="tCenter">Chg</th>
-      <th class="tRight">Last</th>
+      <th class="tCenter">Last</th>
+      <th class="tRight">Chg</th>
     </tr>
     <tr each={stockPresets} class="item" onclick={quoteSelect}>
       <td class="tLeft">{symbol}</td>
