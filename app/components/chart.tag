@@ -4,15 +4,16 @@
     this.symbol = 'SPY';
 
     this.on('mount', () => {
-      observe.on('quote-update:historicalData', data => {
-        self.data = adjustHistoricalData(data);
-        chart();
-      });
     });
 
     observe.on('quote-select', symbol => {
       self.symbol = symbol;
       self.update();
+    });
+
+    observe.on('quote-update:historicalData', data => {
+      self.data = adjustHistoricalData(data);
+      chart();
     });
 
     function adjustHistoricalData (data) {

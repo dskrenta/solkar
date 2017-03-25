@@ -24,4 +24,4 @@ observe.on('quote-select', symbol => {
   socket.emit('subscribe', symbol);
 });
 
-riot.mount('main');
+riot.mount('*');

@@ -14,7 +14,6 @@
 
     observe.on('quote-update:marketData', data => {
       self.data = data;
-      console.log(data);
       self.update();
     });
 

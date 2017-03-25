@@ -7,7 +7,8 @@
     </div>
     <div class="container column two">
       <data></data>
-      <chart></chart>
+      <!--<chart></chart>-->
+      <demo></demo>
     </div>
     <div class="container column three">
       <pred></pred>
@@ -17,6 +18,6 @@
   <script>
     this.on('mount', () => {
       observe.trigger('quote-select', 'SPY');
-    })
+    });
   </script>
 </main>
