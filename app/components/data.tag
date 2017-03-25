@@ -4,7 +4,7 @@
     <h3>Bid<br /> {data.bid ? data.bid : 0}</h3>
     <h3>Ask<br /> {data.ask ? data.ask : 0}</h3>
     <h3>Last<br /> {data.lastTradePriceOnly}</h3>
-    <h3 class="up">Chg<br /> {data.change ? data.change : 0.00}</h3>
+    <h3 class="{data.change > 0 ? 'up' : 'down'}">Chg<br /> {data.change ? data.change : 0.00}</h3>
     <h3>{data.name}</h3>
   </div>
 
