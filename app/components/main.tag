@@ -7,8 +7,7 @@
     </div>
     <div class="container column two">
       <data></data>
-      <!--<chart></chart>-->
-      <demo></demo>
+      <chart></chart>
     </div>
     <div class="container column three">
       <pred></pred>
