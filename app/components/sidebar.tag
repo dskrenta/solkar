@@ -1,20 +1,36 @@
 <sidebar>
   <div class="title">
-    <h3><strong>ETFs</strong></h3>
+    <h2><strong>ETFs</strong></h2>
   </div>
-  <div each={etfPresets} class="item container column nowrap">
-    <div class="container row itemsCenter nowrap" onclick={quoteSelect}>
-      <p strong>{symbol}</p>
-    </div>
-  </div>
+  <table>
+    <tr>
+      <th class="tLeft">Sym</th>
+      <th class="tCenter">Last</th>
+      <th class="tRight">Chg</th>
+    </tr>
+    <tr each={etfPresets} class="item" onclick={quoteSelect}>
+      <td class="tLeft">{symbol}</td>
+      <td class="tCenter">123.45</td>
+      <td class="tRight">3.45</td>
+    </tr>
+  </table>
+
   <div class="title">
-    <h3><strong>Stocks</strong></h3>
+    <h2><strong>Stocks</strong></h2>
   </div>
-  <div each={stockPresets} class="item container column nowrap">
-    <div class="container row itemsCenter nowrap" onclick={quoteSelect}>
-      <p strong>{symbol}</p>
-    </div>
-  </div>
+  <table>
+    <tr>
+      <th class="tLeft">Sym</th>
+      <th class="tCenter">Last</th>
+      <th class="tRight">Chg</th>
+    </tr>
+    <tr each={stockPresets} class="item" onclick={quoteSelect}>
+      <td class="tLeft">{symbol}</td>
+      <td class="tCenter">123.45</td>
+      <td class="tRight">3.45</td>
+    </tr>
+  </table>
+
   <script>
     self.data;
     this.etfPresets = lib.presets.etfs;

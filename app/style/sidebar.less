@@ -5,24 +5,29 @@ sidebar {
   height: 86vh;
   color: @white1;
   overflow-y: scroll;
-  h3 {
-    margin: 8px 0px;
-    font-size: 18px;
-    font-weight: normal;
-    padding-left: 15px;
+  h2 {
+    padding-left: 10px;
   }
-  p {
+  table {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+  }
+  .item {
+    width: 100%;
     font-size: 14px;
-    margin: 0;
-    padding: 7px 0;
     border-bottom: 1px solid @black2;
+    height: 35px;
   }
   .item:hover {
     background-color: @black2;
     cursor: pointer;
   }
-  .item {
-    padding: 0 15px;
+  table td:nth-child(1), table th:nth-child(1) {
+    padding-left: 10px;
+  }
+  table td:nth-child(3), table th:nth-child(3) {
+    padding-right: 10px;
   }
 }
 sidebar::-webkit-scrollbar {
