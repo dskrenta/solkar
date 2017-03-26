@@ -4,6 +4,10 @@
     this.symbol = 'SPY';
 
     this.on('mount', () => {
+      const parent = self.root.parentNode;
+      self.width = parent.offsetWidth;
+      self.height = parent.offsetHeight;
+      console.log(self.width, self.height);
     });
 
     observe.on('quote-select', symbol => {
@@ -35,7 +39,8 @@
 
     function chart () {
       const barWidth = 20;
-      const width = 500;
+      // const width = 500;
+      const width = self.width;
       const height = 400;
 
       const x = d3.scaleBand()
