@@ -19,7 +19,9 @@ function createMainWindow() {
 		width: 1000,
 		height: 700
 	});
-	win.maximize(); 
+
+	win.maximize();
+	win.openDevTools();
 
 	win.loadURL(`file://${__dirname}/index.html`);
 	win.on('closed', onClosed);
