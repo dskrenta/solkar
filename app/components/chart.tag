@@ -8,6 +8,7 @@
 
     observe.on('quote-select', symbol => {
       self.symbol = symbol;
+      clearChart();
       self.update();
     });
 
@@ -28,6 +29,10 @@
       return data;
     }
 
+    function clearChart () {
+      d3.select('#chart').remove();
+    }
+
     function chart () {
       const barWidth = 20;
       const width = 500;
@@ -38,13 +43,14 @@
         .padding(0.1)
         .domain(self.data.map((d, index) => index));
       const y = d3.scaleLinear()
-        .domain([d3.min(self.data, d => d.low), d3.max(self.data, d => d.high)])
+        .domain([d3.max(self.data, d => d.high), d3.min(self.data, d => d.low)])
         .range([0, height]);
 
       const chart = d3.select('chart')
         .append('svg:svg')
         .attr('width', width)
-        .attr('height', height);
+        .attr('height', height)
+        .attr('id', 'chart');
 
       const candle = chart.selectAll('.candle')
         .data(self.data)
