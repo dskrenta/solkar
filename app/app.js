@@ -1,7 +1,7 @@
 'use strict';
 import 'babel-polyfill';
 import { remote } from 'electron';
-import * as riot from 'riot';
+// import * as riot from 'riot';
 import * as d3 from 'd3';
 import request from 'request';
 import cheerio from 'cheerio';
