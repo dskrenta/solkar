@@ -66,15 +66,17 @@
         .attr('y1', d => y(d.high))
         .attr('x2', (d, index) => x(index) + x.bandwidth() / 2)
         .attr('y2', d => y(d.low))
-        .attr('stroke-width', '1')
-        .attr('stroke', d => candleColor(y(d.open), y(d.close)));
+        .attr('stroke-width', '0.5')
+        .attr('stroke', d => candleColor(y(d.open), y(d.close)))
+        .attr('shape-rendering', 'crispEdges');
 
       candle.append('svg:rect')
         .attr('x', (d, index) => x(index))
         .attr('y', d => candleY(y(d.open), y(d.close)))
         .attr('width', x.bandwidth())
         .attr('height', d => candleHeight(y(d.open), y(d.close)))
-        .attr('fill', d => candleColor(y(d.open), y(d.close)));
+        .attr('fill', d => candleColor(y(d.open), y(d.close)))
+        .attr('shape-rendering', 'crispEdges');
     }
 
     function candleY (open, close) {
