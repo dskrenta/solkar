@@ -2,8 +2,9 @@ export const presets = {
   etfs: [
     {symbol: 'SPY'},
     {symbol: 'QQQ'},
-    {symbol: 'TLT'},
     {symbol: 'IWM'},
+    {symbol: 'DIA'},
+    {symbol: 'TLT'},
     {symbol: 'EEM'},
     {symbol: 'USO'},
     {symbol: 'XLE'}
