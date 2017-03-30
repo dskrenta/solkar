@@ -9,14 +9,14 @@ export async function getData (symbol) {
     let marketData = await lib.quoteSnapshot(symbol);
     observe.trigger('quote-update:marketData', marketData);
 
-    let optionsData = await lib.options(symbol);
-    observe.trigger('quote-update:optionsData', optionsData);
+    // let optionsData = await lib.options(symbol);
+    // observe.trigger('quote-update:optionsData', optionsData);
 
     let historicalData = await lib.historicalQuotes(symbol, startDate, endDate);
     observe.trigger('quote-update:historicalData', historicalData);
 
-    let earningsData = await lib.earnings(symbol);
-    observe.trigger('quote-update:earningsData', earningsData);
+    // let earningsData = await lib.earnings(symbol);
+    // observe.trigger('quote-update:earningsData', earningsData);
   } catch (err) {
     console.log(err);
   }
