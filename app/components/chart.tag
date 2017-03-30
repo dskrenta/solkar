@@ -1,7 +1,15 @@
 <chart>
+  <select onchange={periodSelect}>
+    <option value="12">1 Year</option>
+    <option value="6">6 Months</option>
+    <option value="3">3 Months</option>
+    <option value="1">1 Month</option>
+  </select>
+
   <script>
     const self = this;
     this.symbol = 'SPY';
+    this.period = 12;
 
     this.on('mount', () => {
       const parent = document.querySelector('chart');
@@ -10,16 +18,23 @@
     });
 
     observe.on('quote-select', symbol => {
-      self.symbol = symbol;
       clearChart();
-      self.update();
     });
 
     observe.on('quote-update:historicalData', data => {
       self.data = adjustHistoricalData(data);
-      const chart = createChart();
-      candlestickChart(chart, self.data, self.width, self.height);
+      chartInit();
     });
+
+    periodSelect (event) {
+      self.period = parseInt(event.target.value);
+      chartInit();
+    }
+
+    function chartInit () {
+      clearChart();
+      candlestickChart(createChart(), self.data, self.period, self.width, self.height);
+    }
 
     function adjustHistoricalData (data) {
       for (let i = 0; i < data.length; i++) {
@@ -46,11 +61,13 @@
       return chart;
     }
 
-    function candlestickChart (chart, data, width, height) {
+    function candlestickChart (chart, inputData, period, width, height) {
+      const data = inputData.slice(-(period * 20));
+
       const x = d3.scaleBand()
         .range([0, width])
         .padding(0.2)
-        .domain(self.data.map((d, index) => index));
+        .domain(data.map((d, index) => index));
 
       const yCandle = d3.scaleLinear()
         .domain([d3.max(data, d => d.high), d3.min(data, d => d.low)])
