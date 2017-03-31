@@ -1,14 +1,28 @@
 export const presets = {
-  etfs: [
+  market: [
     {symbol: 'SPY'},
     {symbol: 'QQQ'},
     {symbol: 'IWM'},
     {symbol: 'DIA'},
-    {symbol: 'TLT'},
-    {symbol: 'EEM'},
-    {symbol: 'USO'},
-    {symbol: 'XLE'}
+    {symbol: 'TLT'}
   ],
+  /*
+  sectors: [
+    {symbol: 'XLF'},
+    {symbol: 'XLK'},
+    {symbol: 'XLI'},
+    {symbol: 'XLB'},
+    {symbol: 'XLY'},
+    {symbol: 'XLV'},
+    {symbol: 'XLU'},
+    {symbol: 'XLP'},
+    {symbol: 'XLE'},
+    {symbol: 'XLRE'},
+  ],
+  efts: [
+    {symbol: 'XLF'},
+  ],
+  */
   stocks: [
     {symbol: 'NFLX'},
     {symbol: 'AMZN'},
