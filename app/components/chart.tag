@@ -75,7 +75,7 @@
 
       const yVolume = d3.scaleLinear()
         .domain([d3.max(data, d => d.volume), d3.min(data, d => d.volume)])
-        .range([(height / 2), height]);
+        .range([(height / 2), (height - 50)]);
 
       const candle = chart.selectAll('.candle')
         .data(data)
