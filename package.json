@@ -30,6 +30,7 @@
     "quoth": "^1.0.3",
     "request": "^2.81.0",
     "socket.io-client": "^1.7.3",
+    "talib": "^1.0.2",
     "yahoo-finance": "^0.2.16"
   },
   "devDependencies": {
