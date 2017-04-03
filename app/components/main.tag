@@ -2,7 +2,7 @@
   <div class="container row">
     <div class="container column one">
       <header></header>
-      <sidebar></sidebar>
+      <left-sidebar></left-sidebar>
       <clock></clock>
     </div>
     <div class="container column two">
@@ -10,7 +10,7 @@
       <chart></chart>
     </div>
     <div class="container column three">
-      <pred></pred>
+      <right-sidebar></right-sidebar>
     </div>
   </div>
 

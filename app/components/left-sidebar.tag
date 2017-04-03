@@ -1,4 +1,4 @@
-<sidebar>
+<left-sidebar>
   <div class="title">
     <h2><strong>Market</strong></h2>
   </div>
@@ -57,4 +57,4 @@
       observe.trigger('quote-select', event.item.symbol);
     }
   </script>
-</sidebar>
+</left-sidebar>

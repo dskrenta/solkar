@@ -1,4 +1,4 @@
-<pred>
+<right-sidebar>
   <div class="container row itemsStart around">
     <h3>Volume<br />{marketData.volume}</h3>
     <h3>Avg. Volume<br />{marketData.averageDailyVolume}</h3>
@@ -31,4 +31,4 @@
       self.update();
     });
   </script>
-</pred>
+</right-sidebar>
