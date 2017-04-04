@@ -1,11 +1,11 @@
 'use strict';
 import 'babel-polyfill';
 import { remote } from 'electron';
-// import * as riot from 'riot';
 import * as d3 from 'd3';
 import request from 'request';
 import cheerio from 'cheerio';
 import yahooFinance from 'yahoo-finance';
+import talib from 'talib';
 import * as lib from './lib/lib.js';
 import './components/components.js';
 
@@ -22,6 +22,12 @@ observe.on('quote-select', symbol => {
   currentSymbol = symbol;
   lib.getData(symbol);
   socket.emit('subscribe', symbol);
+});
+
+observe.on('quote-update:historicalData', data => {
+  lib.TA(data)
+    .then(result => observe.trigger('technicalAnalysisUpdate', result))
+    .catch(err => console.log(err));
 });
 
 riot.mount('*');

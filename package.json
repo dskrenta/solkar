@@ -30,6 +30,7 @@
     "quoth": "^1.0.3",
     "request": "^2.81.0",
     "socket.io-client": "^1.7.3",
+    "talib": "^1.0.2",
     "yahoo-finance": "^0.2.16"
   },
   "devDependencies": {
@@ -41,9 +42,10 @@
     "babel-preset-es2015": "^6.9.0",
     "del": "^2.2.0",
     "devtron": "^1.4.0",
+    "electron": "^1.6.2",
     "electron-connect": "0.6.1",
     "electron-packager": "^7.0.0",
-    "electron": "^1.6.2",
+    "electron-rebuild": "^1.5.7",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-batch": "^1.0.5",
