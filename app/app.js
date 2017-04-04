@@ -25,4 +25,10 @@ observe.on('quote-select', symbol => {
   socket.emit('subscribe', symbol);
 });
 
+observe.on('quote-update:historicalData', data => {
+  lib.TA(data)
+    .then(result => observe.trigger('technicalAnalysisUpdate', result))
+    .catch(err => console.log(err));
+});
+
 riot.mount('*');
