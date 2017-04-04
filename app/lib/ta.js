@@ -3,7 +3,7 @@ import talib from 'talib';
 export async function TA (marketData) {
   try {
     const formattedData = await formatData(marketData);
-    const presets = await createPresets(formattedData);
+    const presets = await lib.createTaPresets(formattedData);
     const resultPromises = presets.map(preset => talibFunc(preset));
     const results = await Promise.all(resultPromises);
     return results;
@@ -45,6 +45,7 @@ function formatData (marketData) {
   });
 }
 
+/*
 function createPresets (marketData) {
   return new Promise((resolve, reject) => {
     const result = [
@@ -68,3 +69,4 @@ function createPresets (marketData) {
     resolve(result);
   });
 }
+*/
