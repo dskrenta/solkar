@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import request from 'request';
 import cheerio from 'cheerio';
 import yahooFinance from 'yahoo-finance';
-import * as ta from 'talib';
+import talib from 'talib';
 import * as lib from './lib/lib.js';
 import './components/components.js';
 
