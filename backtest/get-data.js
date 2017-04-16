@@ -100,6 +100,7 @@ function condenseResults (marketData, taData) {
 }
 */
 
+/*
 async function getData () {
   try {
     let data = await getHistoricalData();
@@ -109,6 +110,17 @@ async function getData () {
     const resultPromises = presets.map(preset => talibExecute(preset));
     const results = await Promise.all(resultPromises);
     console.log(results[2].result.outInteger);
+  } catch (err) {
+    console.log(err);
+  }
+}
+*/
+
+async function getData() {
+  try {
+    let marketData = await getHistoricalData();
+    marketData = adjustHistoricalData(marketData);
+    console.log(JSON.stringify(marketData));
   } catch (err) {
     console.log(err);
   }
