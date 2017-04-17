@@ -9,12 +9,17 @@ class Backtest {
     avgDelta = 0.90,
     taFunctions = [
       'SAR'
-    ]
+    ],
+    mainLoop = (marketData) => {
+      console.log(marketData);
+      return 0;
+    }
   ) {
     this.dataFile = dataFile;
     this.numContracts = numContracts;
     this.avgDelta = avgDelta * 100;
     this.taFunctions = taFunctions;
+    this.mainLoop = mainLoop;
     this.main();
   }
 
@@ -29,6 +34,7 @@ class Backtest {
         high: this.taInputs.high,
         low: this.taInputs.low,
         close: this.taInputs.close,
+        inReal: this.taInputs.close
       };
       for (let input of def.optInputs) {
         returnObj[input.name] = input.defaultValue;
@@ -58,7 +64,7 @@ class Backtest {
         close: [],
         volume: []
       };
-      for (const item of this.marketData) {
+      for (let item of this.marketData) {
         result.open.push(item.open);
         result.high.push(item.high);
         result.low.push(item.low);
@@ -81,8 +87,24 @@ class Backtest {
     });
   }
 
-  condenseData () {
+  marketDataStartIndex () {
+    const begIndexes = this.taData.map(taObj => taObj.begIndex);
+    return Math.max(begIndexes);
+  }
 
+  condenseData () {
+    const startIndex = this.marketDataStartIndex();
+    const taResults = this.taData.map(item => item.result.outReal);
+    const modMarketData = this.marketData.slice(startIndex);
+    const results = [];
+    for (let i = 0; i < modMarketData.length; i++) {
+      let resultObj = modMarketData[i];
+      for (let j = 0; j < this.taFunctions.length; j++) {
+        resultObj[this.taFunctions[j]] = taResults[j][i];
+      }
+      results.push(resultObj);
+    }
+    return results;
   }
 
   async main () {
@@ -94,7 +116,9 @@ class Backtest {
       const resultPromises = presets.map(preset => this.talibExecute(preset));
       this.taData = await Promise.all(resultPromises);
 
-      // const finalResults = condenseResults(marketData, taData);
+      const finalResults = this.condenseData();
+      this.mainLoop(finalResults);
+
       // const orderBook = await backtestLoop(finalResults);
       // const computeResults = await compute(orderBook);
       // console.log(`P/L: ${computeResults.toFixed(2)}`);
@@ -104,4 +128,4 @@ class Backtest {
   }
 }
 
-module.exports= Backtest;
+module.exports = Backtest;
