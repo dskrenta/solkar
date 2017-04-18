@@ -6,19 +6,32 @@ const bt = new Backtest();
 let prevSarHigher = false;
 
 bt.setTradingLogic(bar => {
+  if (bt.getCurrentLongPosition) {
+    bt.clearStop();
+    bt.longStop(bar.SAR);
+  } else if (bt.getCurrentShortPosition) {
+    bt.clearStop();
+    bt.shortStop(bar.SAR);
+  }
   if (bar.SAR > bar.high && bar.SAR > bar.low) {
     if (!prevSarHigher) {
       prevSarHigher = !prevSarHigher;
-      // short
-      if (bt.currentPos) bt.closeLong(bar);
+      if (bt.getCurrentLongPosition) {
+        bt.clearStop();
+        bt.closeLong(bar);
+      }
+      bt.openShort(bar);
+      bt.shortStop(bar.SAR);
     }
-    // sar is above price
   } else {
     if (prevSarHigher) {
       prevSarHigher = !prevSarHigher;
-      // long
+      if (bt.getCurrentShortPosition) {
+        bt.clearStop();
+        bt.closeShort(bar);
+      }
       bt.openLong(bar);
+      bt.longStop(bar.SAR);
     }
-    // sar is below price
   }
 });

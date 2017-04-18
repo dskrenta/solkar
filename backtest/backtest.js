@@ -5,23 +5,26 @@ const talib = require('talib');
 class Backtest {
   constructor (
     dataFile = 'spy-2016.json',
-    numContracts = 5,
+    numContracts = 2,
     avgDelta = 0.90,
     taFunctions = [
       'SAR'
     ]
   ) {
     this.dataFile = dataFile;
-    this.numContracts = numContracts;
-    this.avgDelta = avgDelta * 100;
+    this.shares = avgDelta * 100 * numContracts;
     this.taFunctions = taFunctions;
     this.orderBook = [];
-    this.currentPosition = null;
+    this.currentPosition = {};
     this.totalPL = 0;
   }
 
-  get currentPos () {
-    return this.currentPosition;
+  get getCurrentLongPosition () {
+    return this.currentPosition.long;
+  }
+
+  get getCurrentShortPosition () {
+    return this.currentPosition.short;
   }
 
   setTradingLogic (tradingLogic) {
@@ -115,24 +118,26 @@ class Backtest {
 
   openLong (bar) {
     this.orderBook.push({type: 'Open Long', marketData: bar, price: bar.open});
-    this.currentPosition = {type: 'long', price: bar.open, shares: this.avgDelta * this.numContracts};
+    this.currentPosition.long = {type: 'long', price: bar.open, shares: this.shares};
   }
 
   closeLong (bar) {
     this.orderBook.push({type: 'Close Long', marketData: bar, price: bar.open});
-    this.totalPL += (bar.open - this.currentPosition.price) * this.currentPosition.shares;
-    this.currentPosition = null;
+    console.log('LONG: ' + (bar.open - this.currentPosition.long.price) * this.currentPosition.long.shares);
+    this.totalPL += (bar.open - this.currentPosition.long.price) * this.currentPosition.long.shares;
+    this.currentPosition.long = null;
   }
 
   openShort (bar) {
     this.orderBook.push({type: 'Open Short', marketData: bar, price: bar.open});
-    this.currentPosition = {type: 'short', price: bar.open, shares: -1 * this.avgDelta * this.numContracts};
+    this.currentPosition.short = {type: 'short', price: bar.open, shares: -1 * this.shares};
   }
 
   closeShort (bar) {
     this.orderBook.push({type: 'Close Short', marketData: bar, price: bar.open});
-    this.totalPL += (bar.open - this.currentPosition.price) * this.currentPosition.shares;
-    this.currentPosition = null;
+    console.log('SHORT: ' + (bar.open - this.currentPosition.short.price) * this.currentPosition.short.shares);
+    this.totalPL += (bar.open - this.currentPosition.short.price) * this.currentPosition.short.shares;
+    this.currentPosition.short = null;
   }
 
   longStop (price) {
@@ -145,19 +150,21 @@ class Backtest {
     this.currentStop = {type: 'Short Stop', price: price};
   }
 
+  clearStop () {
+    this.currentStop = null;
+  }
+
   stopCheck (bar) {
     if (this.currentStop) {
       if (this.currentStop.type === 'Long Stop') {
-        // check if price is below stop
         if (bar.low <= this.currentStop.price) {
-          // execute sell
           this.closeLong(bar);
+          this.currentStop = null;
         }
       } else {
-        // check if price is above stop
         if (bar.high >= this.currentStop.price) {
-          // execute short cover
           this.closeShort(bar);
+          this.currentStop = null;
         }
       }
     }
@@ -165,8 +172,8 @@ class Backtest {
 
   backtestLoop () {
     for (let bar of this.finalMarketData) {
-      this.stopCheck(bar);
       this.tradingLogic(bar);
+      this.stopCheck(bar);
     }
   }
 
@@ -182,7 +189,6 @@ class Backtest {
       this.finalMarketData = this.condenseData();
       this.backtestLoop();
 
-      console.log(this.orderBook);
       console.log(`P/L: ${this.totalPL.toFixed(2)}`);
     } catch (err) {
       console.log(err);
