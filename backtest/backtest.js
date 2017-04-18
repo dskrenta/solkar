@@ -9,34 +9,15 @@ class Backtest {
     avgDelta = 0.90,
     taFunctions = [
       'SAR'
-    ],
-    tradingLogic = (bar) => {
-      console.log(bt.buyOrder, bt.sellOrder);
-      let prevSarHigher = false;
-      if (bar.SAR > bar.high && bar.SAR > bar.low) {
-        if (!prevSarHigher) {
-          prevSarHigher = !prevSarHigher;
-          // short
-          this.sellOrder(bar.open, bar);
-        }
-        // sar is above price
-      } else {
-        if (prevSarHigher) {
-          prevSarHigher = !prevSarHigher;
-          // long
-          this.buyOrder(bar.open, bar);
-        }
-        // sar is below price
-      }
-    }
+    ]
   ) {
     this.dataFile = dataFile;
     this.numContracts = numContracts;
     this.avgDelta = avgDelta * 100;
     this.taFunctions = taFunctions;
-    this.tradingLogic = tradingLogic;
     this.orderBook = [];
     this.currentPosition = null;
+    this.totalPL = 0;
   }
 
   get currentPos () {
@@ -133,68 +114,58 @@ class Backtest {
   }
 
   openLong (bar) {
-    this.orderBook.push({type: 'Open Long', marketData: bar, executedAt: bar.open});
-    this.currentPosition = {type: 'long', price: bar.open, eqShares: this.avgDelta * this.numContracts};
+    this.orderBook.push({type: 'Open Long', marketData: bar, price: bar.open});
+    this.currentPosition = {type: 'long', price: bar.open, shares: this.avgDelta * this.numContracts};
   }
 
   closeLong (bar) {
-    this.orderBook.push({type: 'Close Long', marketData: bar, executedAt: bar.open});
-    this.totalPL += (bar.open - this.currentPosition.executedAt) * this.currentPosition.eqShares;
+    this.orderBook.push({type: 'Close Long', marketData: bar, price: bar.open});
+    this.totalPL += (bar.open - this.currentPosition.price) * this.currentPosition.shares;
     this.currentPosition = null;
   }
 
   openShort (bar) {
-    this.orderBook.push({type: 'Open Short', marketData: bar, executedAt: bar.open});
-    this.currentPosition = {type: 'short', price: bar.open, eqShares: -1 * this.avgDelta * this.numContracts};
+    this.orderBook.push({type: 'Open Short', marketData: bar, price: bar.open});
+    this.currentPosition = {type: 'short', price: bar.open, shares: -1 * this.avgDelta * this.numContracts};
   }
 
   closeShort (bar) {
-    this.orderBook.push({type: 'Close Short', marketData: bar, executedAt: bar.open});
-    this.totalPL += (bar.open - this.currentPosition.executedAt) * this.currentPosition.eqShares;
+    this.orderBook.push({type: 'Close Short', marketData: bar, price: bar.open});
+    this.totalPL += (bar.open - this.currentPosition.price) * this.currentPosition.shares;
     this.currentPosition = null;
   }
 
-  /*
-  stopOrder (price, bar) {
-    this.orderBook.push({type: 'Stop Order', marketData: bar});
-    this.orderData.stopPrice = price;
+  longStop (price) {
+    this.orderBook.push({type: 'Long Stop', price: price});
+    this.currentStop = {type: 'Long Stop', price: price};
+  }
+
+  shortStop (price) {
+    this.orderBook.push({type: 'Short Stop', price: price});
+    this.currentStop = {type: 'Short Stop', price: price};
   }
 
   stopCheck (bar) {
-    if (this.orderData.stopPrice) {
-
+    if (this.currentStop) {
+      if (this.currentStop.type === 'Long Stop') {
+        // check if price is below stop
+        if (bar.low <= this.currentStop.price) {
+          // execute sell
+          this.closeLong(bar);
+        }
+      } else {
+        // check if price is above stop
+        if (bar.high >= this.currentStop.price) {
+          // execute short cover
+          this.closeShort(bar);
+        }
+      }
     }
   }
-  */
-
-  /*
-  backtestLoop (tradingLogic = (bar, buyOrder, sellOrder, shortOrder, coverOrder) => {
-    console.log(bar);
-    let prevSarHigher = false;
-    if (bar.SAR > bar.high && bar.SAR > bar.low) {
-      if (!prevSarHigher) {
-        prevSarHigher = !prevSarHigher;
-        // short
-        sellOrder(bar.open, bar);
-      }
-      // sar is above price
-    } else {
-      if (prevSarHigher) {
-        prevSarHigher = !prevSarHigher;
-        // long
-        buyOder(bar.open, bar);
-      }
-      // sar is below price
-    }
-  }) {
-    for (let bar of this.finalMarketData) {
-      tradingLogic(bar, this.buyOrder, this.sellOrder, this.shortOrder, this.coverOrder);
-    }
-  }
-  */
 
   backtestLoop () {
     for (let bar of this.finalMarketData) {
+      this.stopCheck(bar);
       this.tradingLogic(bar);
     }
   }
@@ -208,17 +179,11 @@ class Backtest {
       const resultPromises = presets.map(preset => this.talibExecute(preset));
       this.taData = await Promise.all(resultPromises);
 
-      // const finalResults = this.condenseData();
-      // this.mainLoop(finalResults);
       this.finalMarketData = this.condenseData();
       this.backtestLoop();
 
       console.log(this.orderBook);
       console.log(`P/L: ${this.totalPL.toFixed(2)}`);
-
-      // const orderBook = await backtestLoop(finalResults);
-      // const computeResults = await compute(orderBook);
-      // console.log(`P/L: ${computeResults.toFixed(2)}`);
     } catch (err) {
       console.log(err);
     }
