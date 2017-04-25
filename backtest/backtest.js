@@ -5,7 +5,7 @@ const talib = require('talib');
 class Backtest {
   constructor (
     dataFile = 'spy-2016.json',
-    numContracts = 2,
+    numContracts = 5,
     avgDelta = 0.90,
     taFunctions = [
       'SAR'
